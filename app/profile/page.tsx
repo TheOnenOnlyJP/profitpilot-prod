@@ -27,140 +27,141 @@ export default function Profile() {
 
   return (
     <div className="min-h-screen py-8 bg-background">
-      <div className="max-w-4xl mx-auto px-4">
+      <div className="max-w-6xl mx-auto px-6">
         <div className="mb-8">
-          <h1 className="text-2xl font-bold text-foreground mb-2">Profile Settings</h1>
-          <p className="text-muted-foreground">Manage your account settings and preferences</p>
+          <h1 className="text-3xl font-bold text-foreground mb-2">Profile Settings</h1>
+          <p className="text-muted-foreground text-lg">Manage your account settings and preferences</p>
         </div>
 
-        <div className="space-y-6">
-          <Card className="border-border">
-            <CardHeader className="flex flex-row items-center justify-between">
-              <CardTitle>Profile Information</CardTitle>
+        <div className="grid gap-6">
+          <Card className="border-border bg-card">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-8">
+              <CardTitle className="text-xl font-semibold">Profile Information</CardTitle>
               <button
                 onClick={() => setIsEditing(!isEditing)}
-                className="flex items-center gap-2 px-4 py-2 text-sm rounded-lg border border-border hover:bg-accent transition-colors duration-200"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
               >
                 <Edit className="h-4 w-4" />
                 {isEditing ? 'Save Changes' : 'Edit Profile'}
               </button>
             </CardHeader>
             <CardContent>
-              <div className="flex items-center space-x-6">
-                <div className="relative w-24 h-24">
+              <div className="flex items-start gap-8">
+                <div className="relative">
                   <Image
                     src="/assets/josh.png"
                     alt="Profile"
-                    width={96}
-                    height={96}
-                    className="rounded-full object-cover"
+                    width={120}
+                    height={120}
+                    className="rounded-full object-cover ring-2 ring-background"
                     priority
                   />
                   {isEditing && (
-                    <button className="absolute bottom-0 right-0 p-1 bg-background rounded-full border border-border hover:bg-accent transition-colors duration-200">
+                    <button className="absolute bottom-0 right-0 p-2 bg-primary text-white rounded-full hover:bg-primary/90 transition-colors">
                       <Edit className="h-4 w-4" />
                     </button>
                   )}
                 </div>
-                
-                <div className="flex-1 grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="text-sm text-muted-foreground">Full Name</label>
-                    <input
-                      type="text"
-                      disabled={!isEditing}
-                      value={userData.name}
-                      className="w-full p-2 mt-1 rounded-lg bg-background border border-border disabled:bg-muted focus:ring-1 focus:ring-ring"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-sm text-muted-foreground">Role</label>
-                    <input
-                      type="text"
-                      disabled={!isEditing}
-                      value={userData.role}
-                      className="w-full p-2 mt-1 rounded-lg bg-background border border-border disabled:bg-muted focus:ring-1 focus:ring-ring"
-                    />
-                  </div>
-                </div>
-              </div>
 
-              <div className="mt-6 grid grid-cols-2 gap-4">
-                <div>
-                  <label className="text-sm text-muted-foreground">Email</label>
-                  <div className="relative flex items-center mt-1">
-                    <Mail className="h-4 w-4 text-muted-foreground absolute left-3 top-1/2 transform -translate-y-1/2" />
-                    <input
-                      type="email"
-                      disabled={!isEditing}
-                      value={userData.email}
-                      className="w-full p-2 pl-10 rounded-lg bg-background border border-border disabled:bg-muted focus:ring-1 focus:ring-ring"
-                    />
+                <div className="flex-1 space-y-6">
+                  <div className="grid grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium text-foreground">Full Name</label>
+                      <input
+                        type="text"
+                        disabled={!isEditing}
+                        value={userData.name}
+                        className="w-full px-4 py-2 rounded-lg bg-background/50 border border-border disabled:opacity-70 focus:ring-2 focus:ring-primary/20 transition-all"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-sm text-muted-foreground">Role</label>
+                      <input
+                        type="text"
+                        disabled={!isEditing}
+                        value={userData.role}
+                        className="w-full p-2 mt-1 rounded-lg bg-background border border-border disabled:bg-muted focus:ring-1 focus:ring-ring"
+                      />
+                    </div>
                   </div>
-                </div>
-                <div>
-                  <label className="text-sm text-muted-foreground">Phone</label>
-                  <div className="relative flex items-center mt-1">
-                    <Phone className="h-4 w-4 text-muted-foreground absolute left-3 top-1/2 transform -translate-y-1/2" />
-                    <input
-                      type="tel"
-                      disabled={!isEditing}
-                      value={userData.phone}
-                      className="w-full p-2 pl-10 rounded-lg bg-background border border-border disabled:bg-muted focus:ring-1 focus:ring-ring"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <label className="text-sm text-muted-foreground">Location</label>
-                  <div className="relative flex items-center mt-1">
-                    <MapPin className="h-4 w-4 text-muted-foreground absolute left-3 top-1/2 transform -translate-y-1/2" />
-                    <input
-                      type="text"
-                      disabled={!isEditing}
-                      value={userData.location}
-                      className="w-full p-2 pl-10 rounded-lg bg-background border border-border disabled:bg-muted focus:ring-1 focus:ring-ring"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <label className="text-sm text-muted-foreground">Birthday</label>
-                  <div className="relative flex items-center mt-1">
-                    <Calendar className="h-4 w-4 text-muted-foreground absolute left-3 top-1/2 transform -translate-y-1/2" />
-                    <input
-                      type="date"
-                      disabled={!isEditing}
-                      value={userData.birthday}
-                      className="w-full p-2 pl-10 rounded-lg bg-background border border-border disabled:bg-muted focus:ring-1 focus:ring-ring"
-                    />
+
+                  <div className="mt-6 grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="text-sm text-muted-foreground">Email</label>
+                      <div className="relative flex items-center mt-1">
+                        <Mail className="h-4 w-4 text-muted-foreground absolute left-3 top-1/2 transform -translate-y-1/2" />
+                        <input
+                          type="email"
+                          disabled={!isEditing}
+                          value={userData.email}
+                          className="w-full p-2 pl-10 rounded-lg bg-background border border-border disabled:bg-muted focus:ring-1 focus:ring-ring"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label className="text-sm text-muted-foreground">Phone</label>
+                      <div className="relative flex items-center mt-1">
+                        <Phone className="h-4 w-4 text-muted-foreground absolute left-3 top-1/2 transform -translate-y-1/2" />
+                        <input
+                          type="tel"
+                          disabled={!isEditing}
+                          value={userData.phone}
+                          className="w-full p-2 pl-10 rounded-lg bg-background border border-border disabled:bg-muted focus:ring-1 focus:ring-ring"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label className="text-sm text-muted-foreground">Location</label>
+                      <div className="relative flex items-center mt-1">
+                        <MapPin className="h-4 w-4 text-muted-foreground absolute left-3 top-1/2 transform -translate-y-1/2" />
+                        <input
+                          type="text"
+                          disabled={!isEditing}
+                          value={userData.location}
+                          className="w-full p-2 pl-10 rounded-lg bg-background border border-border disabled:bg-muted focus:ring-1 focus:ring-ring"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label className="text-sm text-muted-foreground">Birthday</label>
+                      <div className="relative flex items-center mt-1">
+                        <Calendar className="h-4 w-4 text-muted-foreground absolute left-3 top-1/2 transform -translate-y-1/2" />
+                        <input
+                          type="date"
+                          disabled={!isEditing}
+                          value={userData.birthday}
+                          className="w-full p-2 pl-10 rounded-lg bg-background border border-border disabled:bg-muted focus:ring-1 focus:ring-ring"
+                        />
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </CardContent>
           </Card>
 
-          <Card className="border-border">
+          <Card className="border-border bg-card">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Shield className="h-5 w-5" />
+              <CardTitle className="flex items-center gap-3 text-xl">
+                <Shield className="h-6 w-6 text-primary" />
                 Security Settings
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                <div className="flex items-center justify-between p-4 bg-muted rounded-lg">
-                  <div className="flex items-center gap-3">
-                    <Lock className="h-5 w-5 text-muted-foreground" />
+                <div className="flex items-center justify-between p-4 rounded-lg bg-background/50">
+                  <div className="flex items-center gap-4">
+                    <div className="p-2 rounded-full bg-primary/10">
+                      <Lock className="h-5 w-5 text-primary" />
+                    </div>
                     <div>
-                      <h3 className="font-medium text-foreground">Two-Factor Authentication</h3>
-                      <p className="text-sm text-muted-foreground">Add an extra layer of security to your account</p>
+                      <h3 className="font-medium">Two-Factor Authentication</h3>
+                      <p className="text-sm text-muted-foreground">Add an extra layer of security</p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm text-emerald-500 dark:text-emerald-400 font-medium">Enabled</span>
-                    <button className="px-4 py-2 text-sm border border-border rounded-lg hover:bg-accent transition-colors duration-200">
-                      Configure
-                    </button>
-                  </div>
+                  <button className="px-4 py-2 rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-colors">
+                    Configure
+                  </button>
                 </div>
 
                 <div className="flex items-center justify-between p-4 bg-muted rounded-lg">
@@ -179,7 +180,7 @@ export default function Profile() {
             </CardContent>
           </Card>
 
-          <Card className="border-border">
+          <Card className="border-border bg-card">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Bell className="h-5 w-5" />
@@ -213,7 +214,7 @@ export default function Profile() {
             </CardContent>
           </Card>
 
-          <Card className="border-border">
+          <Card className="border-border bg-card">
             <CardHeader>
               <CardTitle>Account Activity</CardTitle>
             </CardHeader>

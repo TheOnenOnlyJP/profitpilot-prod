@@ -1,7 +1,7 @@
 "use client";
 import { useState, useMemo } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { Clock, Info } from 'lucide-react';
+import { Clock, Info, Filter, Bell, Newspaper } from 'lucide-react';
 import { HeaderCard } from '@/components/ui/header-card';
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion';
 import { FlagIcon } from '@/components/ui/flag-icon';
@@ -148,20 +148,25 @@ const memoizedNewsEvents = useMemo(() => {
           // Handle settings click if needed
         }}
       >
-        <Accordion type="multiple" className="border-b border-border">
-          <AccordionItem value="filters">
-            <AccordionTrigger className="flex items-center justify-between px-4 py-3 font-semibold text-foreground">
-              <span>Filters</span>
+        <Accordion type="multiple" className="border-b border-border/50">
+          <AccordionItem value="filters" className="border-none">
+            <AccordionTrigger className="flex items-center justify-between px-6 py-4 hover:bg-accent/50 transition-colors">
+              <div className="flex items-center gap-2">
+                <div className="p-2 rounded-lg bg-primary/10">
+                  <Filter className="h-5 w-5 text-primary" />
+                </div>
+                <span className="font-medium">Filters</span>
+              </div>
               <div className="flex items-center gap-2">
                 {getActiveFilterCount(activeFilters).total > 0 && (
                   <div className="flex gap-2">
                     {getActiveFilterCount(activeFilters).currencies > 0 && (
-                      <span className="px-2 py-0.5 text-xs rounded-full bg-emerald-500/10 text-emerald-500 dark:bg-emerald-500/20">
+                      <span className="px-2.5 py-0.5 text-xs font-medium rounded-full bg-emerald-500/10 text-emerald-500 dark:bg-emerald-500/20">
                         {getActiveFilterCount(activeFilters).currencies} Currencies
                       </span>
                     )}
                     {getActiveFilterCount(activeFilters).impacts > 0 && (
-                      <span className="px-2 py-0.5 text-xs rounded-full bg-blue-500/10 text-blue-500 dark:bg-blue-500/20">
+                      <span className="px-2.5 py-0.5 text-xs font-medium rounded-full bg-blue-500/10 text-blue-500 dark:bg-blue-500/20">
                         {getActiveFilterCount(activeFilters).impacts} Impact Levels
                       </span>
                     )}
@@ -173,122 +178,64 @@ const memoizedNewsEvents = useMemo(() => {
               </div>
             </AccordionTrigger>
             <AccordionContent>
-              <div className="p-4">
-                <div className="flex justify-between items-start">
+              <div className="p-6">
+                <div className="flex justify-between items-start gap-12">
                   {/* Left side - Currencies */}
-                  <div>
-                    <h3 className="text-sm font-medium mb-2 text-foreground">Currencies</h3>
-                    <div className="flex gap-6">
-                      <div className="flex items-center">
-                        <input
-                          type="checkbox"
-                          id="currency-usd"
-                          checked={activeFilters['usd']}
-                          onChange={(e) => handleFiltersChange('usd', e.target.checked)}
-                          className="mr-3"
-                        />
-                        <label htmlFor="currency-usd" className="text-foreground flex items-center gap-3">
-                          <FlagIcon country="US" />
-                          <span>USD</span>
-                        </label>
-                      </div>
-                      <div className="flex items-center">
-                        <input
-                          type="checkbox"
-                          id="currency-eur"
-                          checked={activeFilters['eur']}
-                          onChange={(e) => handleFiltersChange('eur', e.target.checked)}
-                          className="mr-3"
-                        />
-                        <label htmlFor="currency-eur" className="text-foreground flex items-center gap-3">
-                          <FlagIcon country="EU" />
-                          <span>EUR</span>
-                        </label>
-                      </div>
-                      <div className="flex items-center">
-                        <input
-                          type="checkbox"
-                          id="currency-gbp"
-                          checked={activeFilters['gbp']}
-                          onChange={(e) => handleFiltersChange('gbp', e.target.checked)}
-                          className="mr-3"
-                        />
-                        <label htmlFor="currency-gbp" className="text-foreground flex items-center gap-3">
-                          <FlagIcon country="GB" />
-                          <span>GBP</span>
-                        </label>
-                      </div>
-                      <div className="flex items-center">
-                        <input
-                          type="checkbox"
-                          id="currency-jpy"
-                          checked={activeFilters['jpy']}
-                          onChange={(e) => handleFiltersChange('jpy', e.target.checked)}
-                          className="mr-3"
-                        />
-                        <label htmlFor="currency-jpy" className="text-foreground flex items-center gap-3">
-                          <FlagIcon country="JP" />
-                          <span>JPY</span>
-                        </label>
-                      </div>
+                  <div className="flex-1">
+                    <h3 className="text-sm font-medium mb-4 text-foreground">Currencies</h3>
+                    <div className="grid grid-cols-2 gap-4">
+                      {['USD', 'EUR', 'GBP', 'JPY'].map((currency) => (
+                        <div key={currency} className="flex items-center">
+                          <label className="flex items-center gap-3 cursor-pointer group">
+                            <input
+                              type="checkbox"
+                              id={`currency-${currency.toLowerCase()}`}
+                              checked={activeFilters[currency.toLowerCase()]}
+                              onChange={(e) => handleFiltersChange(currency.toLowerCase(), e.target.checked)}
+                              className="w-4 h-4 rounded border-border text-primary focus:ring-primary/20"
+                            />
+                            <div className="flex items-center gap-2 group-hover:text-foreground transition-colors">
+                              <FlagIcon country={currency === 'EUR' ? 'EU' : currency.slice(0, 2)} />
+                              <span>{currency}</span>
+                            </div>
+                          </label>
+                        </div>
+                      ))}
                     </div>
                   </div>
 
                   {/* Right side - Impact */}
-                  <div>
-                    <h3 className="text-sm font-medium mb-2 text-foreground">Impact</h3>
-                    <div className="flex gap-6">
-                      <div className="flex items-center">
-                        <input
-                          type="checkbox"
-                          id="impact-1"
-                          checked={activeFilters['1_impact']}
-                          onChange={(e) => handleFiltersChange('1_impact', e.target.checked)}
-                          className="mr-3"
-                        />
-                        <label htmlFor="impact-1" className="text-foreground flex items-center gap-3">
-                          <div className="flex gap-0.5">
-                            <div className="w-2 h-3 bg-red-500 dark:bg-red-400"></div>
-                            <div className="w-2 h-3 bg-muted"></div>
-                            <div className="w-2 h-3 bg-muted"></div>
-                          </div>
-                          <span>Low Impact</span>
-                        </label>
-                      </div>
-                      <div className="flex items-center">
-                        <input
-                          type="checkbox"
-                          id="impact-2"
-                          checked={activeFilters['2_impact']}
-                          onChange={(e) => handleFiltersChange('2_impact', e.target.checked)}
-                          className="mr-3"
-                        />
-                        <label htmlFor="impact-2" className="text-foreground flex items-center gap-3">
-                          <div className="flex gap-0.5">
-                            <div className="w-2 h-3 bg-red-500 dark:bg-red-400"></div>
-                            <div className="w-2 h-3 bg-red-500 dark:bg-red-400"></div>
-                            <div className="w-2 h-3 bg-muted"></div>
-                          </div>
-                          <span>Medium Impact</span>
-                        </label>
-                      </div>
-                      <div className="flex items-center">
-                        <input
-                          type="checkbox"
-                          id="impact-3"
-                          checked={activeFilters['3_impact']}
-                          onChange={(e) => handleFiltersChange('3_impact', e.target.checked)}
-                          className="mr-3"
-                        />
-                        <label htmlFor="impact-3" className="text-foreground flex items-center gap-3">
-                          <div className="flex gap-0.5">
-                            <div className="w-2 h-3 bg-red-500 dark:bg-red-400"></div>
-                            <div className="w-2 h-3 bg-red-500 dark:bg-red-400"></div>
-                            <div className="w-2 h-3 bg-red-500 dark:bg-red-400"></div>
-                          </div>
-                          <span>High Impact</span>
-                        </label>
-                      </div>
+                  <div className="flex-1">
+                    <h3 className="text-sm font-medium mb-4 text-foreground">Impact</h3>
+                    <div className="space-y-4">
+                      {[
+                        { id: '1_impact', label: 'Low Impact', bars: 1 },
+                        { id: '2_impact', label: 'Medium Impact', bars: 2 },
+                        { id: '3_impact', label: 'High Impact', bars: 3 }
+                      ].map(({ id, label, bars }) => (
+                        <div key={id} className="flex items-center">
+                          <label className="flex items-center gap-3 cursor-pointer group">
+                            <input
+                              type="checkbox"
+                              id={`impact-${id}`}
+                              checked={activeFilters[id]}
+                              onChange={(e) => handleFiltersChange(id, e.target.checked)}
+                              className="w-4 h-4 rounded border-border text-primary focus:ring-primary/20"
+                            />
+                            <div className="flex items-center gap-3 group-hover:text-foreground transition-colors">
+                              <div className="flex gap-0.5">
+                                {Array.from({ length: 3 }).map((_, i) => (
+                                  <div
+                                    key={i}
+                                    className={`w-2 h-3 ${i < bars ? 'bg-red-500 dark:bg-red-400' : 'bg-muted'}`}
+                                  />
+                                ))}
+                              </div>
+                              <span>{label}</span>
+                            </div>
+                          </label>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>
@@ -299,19 +246,24 @@ const memoizedNewsEvents = useMemo(() => {
       </HeaderCard>
       
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto py-6 px-4">
+      <div className="max-w-7xl mx-auto py-8 px-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Upcoming News */}
           <div className="col-span-2">
             <Card className="border-border">
               <CardContent className="p-6">
-                <h2 className="text-lg font-semibold mb-6 flex items-center gap-2 text-foreground">
-                  <Clock className="h-5 w-5" />
-                  Upcoming News Events
-                </h2>
-                <div className="space-y-4">
+                <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center gap-2">
+                    <div className="p-2 rounded-lg bg-primary/10">
+                      <Clock className="h-5 w-5 text-primary" />
+                    </div>
+                    <h2 className="text-xl font-semibold">Upcoming News Events</h2>
+                  </div>
+                </div>
+
+                <div className="space-y-2">
                   {/* Header Row */}
-                  <div className="grid grid-cols-[1fr_1.5fr_1fr_1fr_1fr_1fr] items-center py-2 px-4 font-semibold text-muted-foreground">
+                  <div className="grid grid-cols-[1fr_1.5fr_1fr_1fr_1fr_1fr] items-center py-2 px-4 text-sm font-medium text-muted-foreground">
                     <span>Currency</span>
                     <span>Event</span>
                     <span>Time</span>
@@ -319,17 +271,18 @@ const memoizedNewsEvents = useMemo(() => {
                     <span>Forecast</span>
                     <span>Previous</span>
                   </div>
+
                   {/* News Events */}
                   {filteredEvents.map(event => (
                     <button 
                       key={event.id}
-                      className="w-full grid grid-cols-[1fr_1.5fr_1fr_1fr_1fr_1fr] items-center py-3 px-4 hover:bg-accent rounded-lg text-left transition-colors"
+                      className="w-full grid grid-cols-[1fr_1.5fr_1fr_1fr_1fr_1fr] items-center py-3 px-4 hover:bg-accent/50 rounded-lg text-left transition-colors"
                     >
                       <div className="flex items-center gap-3">
                         <FlagIcon country={event.countryCode} />
-                        <span className="text-foreground">{event.currency}</span>
+                        <span className="font-medium">{event.currency}</span>
                       </div>
-                      <div className="font-medium text-foreground">
+                      <div className="font-medium">
                         {event.event}
                       </div>
                       <div className="flex items-center text-sm text-muted-foreground">
@@ -340,7 +293,7 @@ const memoizedNewsEvents = useMemo(() => {
                         {getImpactBars(event.impactLevel)}
                       </div>
                       <div>
-                        <span className={`inline-block px-3 py-1 rounded-full text-sm ${
+                        <span className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${
                           Number(event.forecast) > Number(event.previous) 
                             ? 'bg-emerald-500/10 text-emerald-500 dark:bg-emerald-500/20'
                             : 'bg-red-500/10 text-red-500 dark:bg-red-500/20'
@@ -349,7 +302,7 @@ const memoizedNewsEvents = useMemo(() => {
                         </span>
                       </div>
                       <div>
-                        <span className="inline-block px-3 py-1 bg-muted rounded-full text-sm text-foreground">
+                        <span className="inline-block px-3 py-1 bg-accent rounded-full text-sm font-medium">
                           {typeof event.previous === 'number' ? event.previous.toFixed(2) : event.previous}
                         </span>
                       </div>
@@ -363,12 +316,14 @@ const memoizedNewsEvents = useMemo(() => {
           {/* Market Alerts and News Feed */}
           <div className="space-y-6">
             {/* Market Alerts */}
-            <Card className="border-border rounded-lg">
+            <Card className="border-border">
               <CardContent className="p-6">
-                <h2 className="text-lg font-semibold mb-4 flex items-center gap-2 text-foreground">
-                  <Clock className="h-5 w-5" />
-                  Market Alerts
-                </h2>
+                <div className="flex items-center gap-2 mb-6">
+                  <div className="p-2 rounded-lg bg-primary/10">
+                    <Bell className="h-5 w-5 text-primary" />
+                  </div>
+                  <h2 className="text-xl font-semibold">Market Alerts</h2>
+                </div>
                 <div className="space-y-3">
                   {marketAlerts.map(alert => (
                     <div 
@@ -381,8 +336,8 @@ const memoizedNewsEvents = useMemo(() => {
                     >
                       <Info className="h-5 w-5 flex-shrink-0" />
                       <div className="flex-1">
-                        <p className="text-sm">{alert.message}</p>
-                        <p className="text-xs opacity-75">{alert.time}</p>
+                        <p className="text-sm font-medium">{alert.message}</p>
+                        <p className="text-xs opacity-75 mt-1">{alert.time}</p>
                       </div>
                     </div>
                   ))}
@@ -391,20 +346,22 @@ const memoizedNewsEvents = useMemo(() => {
             </Card>
 
             {/* News Feed */}
-            <Card className="border-border rounded-lg">
+            <Card className="border-border">
               <CardContent className="p-6">
-                <h2 className="text-lg font-semibold mb-6 flex items-center gap-2 text-foreground">
-                  <Clock className="h-5 w-5" />
-                  Latest Market News
-                </h2>
+                <div className="flex items-center gap-2 mb-6">
+                  <div className="p-2 rounded-lg bg-primary/10">
+                    <Newspaper className="h-5 w-5 text-primary" />
+                  </div>
+                  <h2 className="text-xl font-semibold">Latest Market News</h2>
+                </div>
                 <div className="space-y-4">
                   {[
                     { time: '10:30 AM', title: 'EUR/USD rises after US retail data' },
                     { time: '10:15 AM', title: 'Fed officials signal cautious approach' }
                   ].map((news, index) => (
-                    <div key={index} className="p-4 border border-border rounded-lg">
+                    <div key={index} className="p-4 bg-accent/50 rounded-lg hover:bg-accent transition-colors">
                       <p className="text-sm text-muted-foreground">{news.time}</p>
-                      <p className="font-medium text-foreground">{news.title}</p>
+                      <p className="font-medium mt-1">{news.title}</p>
                     </div>
                   ))}
                 </div>
