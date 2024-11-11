@@ -5,8 +5,7 @@ import { Clock, Info } from 'lucide-react';
 import { HeaderCard } from '@/components/ui/header-card';
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion';
 import { FlagIcon } from '@/components/ui/flag-icon';
-
-
+import { NewsEvent } from '@/types/news';
 
 interface MarketAlert {
   id: string;
@@ -42,7 +41,7 @@ export default function NewsPage() {
     }
   ];
 
-  const newsEvents = useMemo(() => {
+  const newsEvents = useMemo<NewsEvent[]>(() => {
     return [
       {
         id: '1',
@@ -52,7 +51,7 @@ export default function NewsPage() {
         time: '6:00am',
         forecast: 0.06,
         previous: 0.03,
-        impactLevel: 3
+        impactLevel: 3 as 1 | 2 | 3
       },
       {
         id: '2',
@@ -62,7 +61,7 @@ export default function NewsPage() {
         time: '7:00am',
         forecast: 0.01,
         previous: 0.03,
-        impactLevel: 3
+        impactLevel: 3 as 1 | 2 | 3
       },
       {
         id: '3',
@@ -72,7 +71,7 @@ export default function NewsPage() {
         time: '8:00am',
         forecast: -0.01,
         previous: 0.02,
-        impactLevel: 2
+        impactLevel: 2 as 1 | 2 | 3
       },
       {
         id: '4',
@@ -82,7 +81,7 @@ export default function NewsPage() {
         time: '9:00am',
         forecast: 2.5,
         previous: 2.4,
-        impactLevel: 1
+        impactLevel: 1 as 1 | 2 | 3
       }
     ];
   }, []);

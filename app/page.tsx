@@ -1,8 +1,9 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { NewsPreview } from '@/components/news-preview';
+import { NewsEvent } from '@/types/news';
 
 // Sample news events (smaller subset of your main news data)
-const previewNewsEvents = [
+const previewNewsEvents: NewsEvent[] = [
   {
     id: '1',
     currency: 'USD',
@@ -11,7 +12,7 @@ const previewNewsEvents = [
     time: '6:00am',
     forecast: 0.06,
     previous: 0.03,
-    impactLevel: 3
+    impactLevel: 3 as 1 | 2 | 3
   },
   {
     id: '2',
@@ -21,7 +22,7 @@ const previewNewsEvents = [
     time: '7:00am',
     forecast: 0.01,
     previous: 0.03,
-    impactLevel: 3
+    impactLevel: 3 as 1 | 2 | 3
   },
   {
     id: '3',
@@ -31,7 +32,7 @@ const previewNewsEvents = [
     time: '8:00am',
     forecast: -0.01,
     previous: 0.02,
-    impactLevel: 2
+    impactLevel: 2 as 1 | 2 | 3
   }
 ];
 
