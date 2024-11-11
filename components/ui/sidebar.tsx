@@ -1,7 +1,7 @@
 "use client"
 
 import Link from 'next/link';
-import { Search, Home, LineChart, Calendar, Newspaper, BarChart, User, LogOut } from 'lucide-react';
+import { Search, Home, Calendar, Newspaper, BarChart, User, LogOut } from 'lucide-react';
 import Image from 'next/image';
 import { ThemeToggle } from "@/components/theme-toggle"
 import { useState } from 'react';

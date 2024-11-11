@@ -1,5 +1,7 @@
 "use client";
 
+import Image from 'next/image'
+
 interface FlagIconProps {
   country: string;
 }
@@ -31,10 +33,12 @@ export const FlagIcon = ({ country }: FlagIconProps) => {
       case 'eu':
         return (
           <div className="w-8 h-8 rounded-full overflow-hidden">
-            <img 
+            <Image 
               src="/assets/Flag_of_Europe.svg.png" 
               alt="EU Flag"
               className="w-full h-full object-cover"
+              width={24}
+              height={16}
             />
           </div>
         );

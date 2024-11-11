@@ -1,7 +1,7 @@
 "use client";
 import { useState, useMemo } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { Bell, Newspaper, Settings, Clock, Info } from 'lucide-react';
+import { Clock, Info } from 'lucide-react';
 import { HeaderCard } from '@/components/ui/header-card';
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion';
 import { FlagIcon } from '@/components/ui/flag-icon';
@@ -51,48 +51,50 @@ export default function NewsPage() {
     }
   ];
 
-  const newsEvents: NewsEvent[] = [
-    {
-      id: '1',
-      currency: 'USD',
-      countryCode: 'US',
-      event: 'Retail Sales m/m',
-      time: '6:00am',
-      forecast: 0.06,
-      previous: 0.03,
-      impactLevel: 3
-    },
-    {
-      id: '2',
-      currency: 'EUR',
-      countryCode: 'EU',
-      event: 'CPI y/y',
-      time: '7:00am',
-      forecast: 0.01,
-      previous: 0.03,
-      impactLevel: 3
-    },
-    {
-      id: '3',
-      currency: 'GBP',
-      countryCode: 'GB',
-      event: 'GDP q/q',
-      time: '8:00am',
-      forecast: -0.01,
-      previous: 0.02,
-      impactLevel: 2
-    },
-    {
-      id: '4',
-      currency: 'JPY',
-      countryCode: 'JP',
-      event: 'Unemployment Rate',
-      time: '9:00am',
-      forecast: 2.5,
-      previous: 2.4,
-      impactLevel: 1
-    }
-  ];
+  const newsEvents = useMemo(() => {
+    return [
+      {
+        id: '1',
+        currency: 'USD',
+        countryCode: 'US',
+        event: 'Retail Sales m/m',
+        time: '6:00am',
+        forecast: 0.06,
+        previous: 0.03,
+        impactLevel: 3
+      },
+      {
+        id: '2',
+        currency: 'EUR',
+        countryCode: 'EU',
+        event: 'CPI y/y',
+        time: '7:00am',
+        forecast: 0.01,
+        previous: 0.03,
+        impactLevel: 3
+      },
+      {
+        id: '3',
+        currency: 'GBP',
+        countryCode: 'GB',
+        event: 'GDP q/q',
+        time: '8:00am',
+        forecast: -0.01,
+        previous: 0.02,
+        impactLevel: 2
+      },
+      {
+        id: '4',
+        currency: 'JPY',
+        countryCode: 'JP',
+        event: 'Unemployment Rate',
+        time: '9:00am',
+        forecast: 2.5,
+        previous: 2.4,
+        impactLevel: 1
+      }
+    ];
+  }, []);
 
   const getImpactBars = (level: number) => (
     <div className="flex gap-0.5">
@@ -109,22 +111,26 @@ export default function NewsPage() {
     }));
   };
 
-const filteredEvents = useMemo(() => {
-  return newsEvents.filter(event => {
-    // Check if any filters are active
-    const hasActiveFilters = Object.values(activeFilters).some(value => value);
-    if (!hasActiveFilters) return true; // Show all events if no filters are active
+const memoizedNewsEvents = useMemo(() => {
+  return newsEvents;
+}, []);
 
-    // Check currency filter
-    const currencyMatch = activeFilters[event.currency.toLowerCase()];
-    
-    // Check impact filter
-    const impactMatch = activeFilters[`${event.impactLevel}_impact`];
+  const filteredEvents = useMemo(() => {
+    return memoizedNewsEvents.filter(event => {
+      // Check if any filters are active
+      const hasActiveFilters = Object.values(activeFilters).some(value => value);
+      if (!hasActiveFilters) return true; // Show all events if no filters are active
 
-    // Event is shown if both currency and impact level are matched
-    return currencyMatch && impactMatch;
-  });
-}, [newsEvents, activeFilters]);
+      // Check currency filter
+      const currencyMatch = activeFilters[event.currency.toLowerCase()];
+      
+      // Check impact filter
+      const impactMatch = activeFilters[`${event.impactLevel}_impact`];
+
+      // Event is shown if both currency and impact level are matched
+      return currencyMatch && impactMatch;
+    });
+  }, [memoizedNewsEvents, activeFilters]);
 
   const getActiveFilterCount = (filters: { [key: string]: boolean }) => {
     const currencyFilters = ['usd', 'eur', 'gbp', 'jpy'];
@@ -370,7 +376,7 @@ const filteredEvents = useMemo(() => {
             <Card className="border-border rounded-lg">
               <CardContent className="p-6">
                 <h2 className="text-lg font-semibold mb-4 flex items-center gap-2 text-foreground">
-                  <Bell className="h-5 w-5" />
+                  <Clock className="h-5 w-5" />
                   Market Alerts
                 </h2>
                 <div className="space-y-3">
@@ -398,7 +404,7 @@ const filteredEvents = useMemo(() => {
             <Card className="border-border rounded-lg">
               <CardContent className="p-6">
                 <h2 className="text-lg font-semibold mb-6 flex items-center gap-2 text-foreground">
-                  <Newspaper className="h-5 w-5" />
+                  <Clock className="h-5 w-5" />
                   Latest Market News
                 </h2>
                 <div className="space-y-4">

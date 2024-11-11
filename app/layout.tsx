@@ -1,6 +1,5 @@
 import type { Metadata } from "next"
 import './globals.css';
-import { MainNav } from '@/components/ui/main-nav';
 import { ThemeProvider } from "@/components/theme-provider";
 import { cn } from "@/lib/utils";
 import Sidebar from "@/components/ui/sidebar";

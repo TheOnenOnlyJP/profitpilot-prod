@@ -2,8 +2,7 @@
 
 import { useState } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Lock, Mail, Calendar, Phone, MapPin, Edit, Shield, Bell } from 'lucide-react';
+import { Lock, Mail, Calendar, Phone, MapPin, Edit, Shield } from 'lucide-react';
 import Image from 'next/image';
 
 export default function Profile() {

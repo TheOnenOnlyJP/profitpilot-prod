@@ -1,6 +1,4 @@
 import { Card, CardContent } from '@/components/ui/card';
-import { Clock, Bell } from 'lucide-react';
-import { FlagIcon } from '@/components/ui/flag-icon';
 import { NewsPreview } from '@/components/news-preview';
 
 // Sample news events (smaller subset of your main news data)
