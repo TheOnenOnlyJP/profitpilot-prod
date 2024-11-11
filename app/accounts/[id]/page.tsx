@@ -20,11 +20,15 @@ import { Button, Chip } from "@nextui-org/react";
 import { HeaderCard } from '@/components/ui/header-card';
 import { accounts } from '../page'; // Import accounts data
 
-export default function AccountPage({
-  params,
-}: {
-  params: { id: string }
-}) {
+// For Client Component
+interface PageProps {
+  params: {
+    id: string;
+  };
+  searchParams?: { [key: string]: string | string[] | undefined };
+}
+
+export default function AccountPage({ params }: PageProps) {
   const account = accounts.find(a => a.id === parseInt(params.id));
   
   if (!account) return <div>Account not found</div>;
