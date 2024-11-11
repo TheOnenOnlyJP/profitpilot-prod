@@ -1,0 +1,40 @@
+.accordion {
+    background-color: #2e2e2e; /* Matching background color */
+    border-radius: 8px; /* Rounded corners to match other components */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow effect */
+    margin-bottom: 10px;
+    overflow: hidden;
+    transition: max-height 0.3s ease; /* Smooth open/close animation */
+}
+
+.accordion-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px; /* Padding for spacing */
+    cursor: pointer;
+    color: #ffffff;
+    font-size: 16px;
+}
+
+.accordion-header h3 {
+    margin: 0;
+    font-weight: bold;
+}
+
+.accordion-icon {
+    font-size: 20px;
+    color: #bbb;
+}
+
+.accordion-content {
+    padding: 15px 20px;
+    color: #ccc;
+    font-size: 14px;
+    background-color: #2e2e2e; /* Keeps the content background consistent */
+    border-top: 1px solid #444; /* Slight border to differentiate header from content */
+}
+
+.accordion.open .accordion-content {
+    display: block;
+}

@@ -1,0 +1,207 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Color Variables */
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+    --radius: 0.5rem;
+
+    /* Trading-specific colors */
+    --profit: 142.1 76.2% 36.3%;
+    --profit-foreground: 355.7 100% 97.3%;
+    --loss: 346.8 77.2% 49.8%;
+    --loss-foreground: 355.7 100% 97.3%;
+    --alert: 38 92% 50%;
+    --alert-foreground: 355.7 100% 97.3%;
+
+    /* Charts & Visualization */
+    --chart-grid: 210 20% 90%;
+    --chart-axis: 210 20% 80%;
+    --chart-tooltip: 210 40% 98%;
+  }
+
+  .dark {
+    --background: 0 0% 7%; /* #121212 */
+    --foreground: 0 0% 100%;
+    --card: 0 0% 12%; /* #1f1f1f */
+    --card-foreground: 0 0% 100%;
+    --popover: 0 0% 12%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 0 0% 100%;
+    --primary-foreground: 0 0% 7%;
+    --secondary: 0 0% 15%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 0 0% 40%;
+    --muted-foreground: 0 0% 60%;
+    --accent: 0 0% 15%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 16.5%; /* #2a2a2a */
+    --input: 0 0% 12%;
+    --ring: 0 0% 28%;
+
+    /* Trading-specific dark mode colors */
+    --profit: 142.1 70.6% 45.3%;
+    --profit-foreground: 144.9 80.4% 10%;
+    --loss: 346.8 77.2% 49.8%;
+    --loss-foreground: 355.7 100% 97.3%;
+    --alert: 48 96% 53%;
+    --alert-foreground: 38 92% 10%;
+    
+    /* Charts & Visualization dark mode */
+    --chart-grid: 0 0% 16.5%;
+    --chart-axis: 0 0% 40%;
+    --chart-tooltip: 0 0% 12%;
+  }
+}
+
+/* Base Layer Styles */
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  /* Add smooth transitions for theme switching */
+  :root {
+    --transition-duration: 200ms;
+  }
+
+  body {
+    transition: background-color var(--transition-duration) ease,
+                color var(--transition-duration) ease;
+  }
+
+  input, 
+  textarea, 
+  select {
+    @apply bg-card border-0 rounded-md focus:ring-1 focus:ring-muted;
+    transition: background-color var(--transition-duration) ease,
+                border-color var(--transition-duration) ease;
+  }
+}
+
+/* Enhanced Utility Classes for Trading */
+@layer utilities {
+  .profit-text {
+    color: hsl(var(--profit));
+  }
+  
+  .loss-text {
+    color: hsl(var(--loss));
+  }
+  
+  .alert-text {
+    color: hsl(var(--alert));
+  }
+
+  .bg-profit {
+    background-color: hsl(var(--profit));
+    color: hsl(var(--profit-foreground));
+  }
+  
+  .bg-loss {
+    background-color: hsl(var(--loss));
+    color: hsl(var(--loss-foreground));
+  }
+  
+  .bg-alert {
+    background-color: hsl(var(--alert));
+    color: hsl(var(--alert-foreground));
+  }
+
+  .text-gray-light {
+    color: hsl(var(--muted-foreground));
+  }
+
+  .rounded-lg {
+    border-radius: var(--radius);
+  }
+}
+
+/* Shadow Utilities */
+.shadow-custom-light {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.dark .shadow-custom-light {
+  box-shadow: none;
+}
+
+.shadow-custom-medium {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dark .shadow-custom-medium {
+  box-shadow: none;
+}
+
+.shadow-custom-large {
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.dark .shadow-custom-large {
+  box-shadow: none;
+}
+
+/* Chart Styling */
+.chart-container {
+  @apply w-full h-full;
+}
+
+.chart-grid line {
+  stroke: hsl(var(--chart-grid));
+}
+
+.chart-axis line,
+.chart-axis path {
+  stroke: hsl(var(--chart-axis));
+}
+
+.chart-tooltip {
+  @apply bg-background border border-border rounded-lg p-2;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dark .chart-tooltip {
+  box-shadow: none;
+}
+
+/* Input Field Dark Mode Overrides */
+.dark input,
+.dark textarea,
+.dark select {
+  background-color: hsl(var(--card));
+  color: hsl(var(--foreground));
+}
+
+/* Add smooth transitions for interactive elements */
+button,
+a {
+  transition: background-color var(--transition-duration) ease,
+              border-color var(--transition-duration) ease,
+              color var(--transition-duration) ease;
+}
