@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { HeaderCard } from '@/components/ui/header-card';
-import { Clock, PenLine, Calendar, TrendingUp } from 'lucide-react';
+import { Bell, Settings, Clock, PenLine, Calendar, TrendingUp } from 'lucide-react';
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion';
 
 interface JournalEntry {
