@@ -1,244 +1,242 @@
 'use client';
 
-import { Button, Card, CardBody, CardHeader, Chip, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, useDisclosure, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Input } from "@nextui-org/react";
-import { Plus, Wallet, TrendingUp, ArrowUpRight, ArrowDownRight, BarChart3, RefreshCcw } from "lucide-react";
-import { useState } from "react";
+import { Card, CardContent } from '@/components/ui/card';
+import { BrokerIcon } from '@/components/ui/broker-icon';
+import { 
+  Wallet2, 
+  ChevronRight, 
+  TrendingUp, 
+  Clock, 
+  BarChart2, 
+  Shield, 
+  AlertCircle,
+  Settings
+} from 'lucide-react';
+import { Button } from "@nextui-org/react";
+import { HeaderCard } from '@/components/ui/header-card';
+import { useRouter } from "next/navigation";
 
-// Types
-type AccountType = 'Live' | 'Demo';
-type Broker = 'MetaTrader 4' | 'MetaTrader 5' | 'cTrader';
-type Currency = 'USD' | 'EUR' | 'GBP';
-
-interface TradingAccount {
-  id: string;
-  accountNumber: string;
-  broker: Broker;
-  type: AccountType;
+interface AccountMetrics {
   balance: number;
   equity: number;
-  currency: Currency;
-  profit: number;
-  lastUpdated: string;
+  drawdown: number;
+  openTrades: number;
+  dailyPnL: number;
+  lastTrade: string;
 }
 
+export const accounts = [
+  {
+    id: 1,
+    broker: "FTMO",
+    accountSize: 100000,
+    currency: "USD",
+    type: "Challenge Account",
+    status: "active",
+    metrics: {
+      balance: 102450,
+      equity: 102890,
+      drawdown: 2.1,
+      openTrades: 2,
+      dailyPnL: 450,
+      lastTrade: "2h ago"
+    }
+  },
+  {
+    id: 2,
+    broker: "The 5%ers",
+    accountSize: 50526,
+    currency: "USD",
+    type: "Funded Account",
+    status: "active",
+    metrics: {
+      balance: 51200,
+      equity: 51450,
+      drawdown: 1.8,
+      openTrades: 1,
+      dailyPnL: 674,
+      lastTrade: "4h ago"
+    }
+  },
+  {
+    id: 3,
+    broker: "IC Markets",
+    accountSize: 5000,
+    currency: "USD",
+    type: "Live Account",
+    status: "active",
+    metrics: {
+      balance: 5120,
+      equity: 5120,
+      drawdown: 0,
+      openTrades: 0,
+      dailyPnL: 120,
+      lastTrade: "1d ago"
+    }
+  }
+];
+
 export default function AccountsPage() {
-  const {isOpen, onOpen, onClose} = useDisclosure();
-  const [accounts, setAccounts] = useState<TradingAccount[]>([
-    {
-      id: '1',
-      accountNumber: '12345678',
-      broker: 'MetaTrader 4',
-      type: 'Live',
-      balance: 10000.00,
-      equity: 10250.00,
-      currency: 'USD',
-      profit: 250.00,
-      lastUpdated: '2024-03-20T10:30:00Z'
-    },
-    {
-      id: '2',
-      accountNumber: '87654321',
-      broker: 'MetaTrader 5',
-      type: 'Demo',
-      balance: 50000.00,
-      equity: 49800.00,
-      currency: 'EUR',
-      profit: -200.00,
-      lastUpdated: '2024-03-20T10:30:00Z'
-    },
-    // Add more sample accounts as needed
-  ]);
-
-  const totalEquity = accounts.reduce((sum, account) => sum + account.equity, 0);
-  const totalProfit = accounts.reduce((sum, account) => sum + account.profit, 0);
-
-  const AccountModal = () => {
-    const [localFormData, setLocalFormData] = useState({
-      accountNumber: '',
-      broker: 'MetaTrader 4' as Broker,
-      type: 'Live' as AccountType,
-      currency: 'USD' as Currency,
-    });
-
-    const handleSubmit = (e: React.FormEvent) => {
-      e.preventDefault();
-      console.log('New account:', localFormData);
-      onClose();
-    };
-
-    return (
-      <Modal 
-        isOpen={isOpen} 
-        onClose={onClose}
-        size="lg"
-        classNames={{
-          base: "bg-background",
-          body: "py-6",
-        }}
-      >
-        <ModalContent>
-          {(onClose) => (
-            <form onSubmit={handleSubmit}>
-              <ModalHeader>Add Trading Account</ModalHeader>
-              <ModalBody>
-                <div className="flex flex-col gap-4">
-                  <Input
-                    label="Account Number"
-                    placeholder="Enter account number"
-                    value={localFormData.accountNumber}
-                    onChange={(e) => setLocalFormData(prev => ({
-                      ...prev,
-                      accountNumber: e.target.value
-                    }))}
-                    isRequired
-                    classNames={{
-                      input: "bg-transparent",
-                      inputWrapper: "bg-default-100/50"
-                    }}
-                  />
-
-                  <Dropdown>
-                    <DropdownTrigger>
-                      <Button variant="flat" className="bg-default-100/50">
-                        Broker: {localFormData.broker}
-                      </Button>
-                    </DropdownTrigger>
-                    <DropdownMenu
-                      selectedKeys={[localFormData.broker]}
-                      onSelectionChange={(keys) => setLocalFormData(prev => ({
-                        ...prev,
-                        broker: Array.from(keys)[0] as Broker
-                      }))}
-                    >
-                      <DropdownItem key="MetaTrader 4">MetaTrader 4</DropdownItem>
-                      <DropdownItem key="MetaTrader 5">MetaTrader 5</DropdownItem>
-                      <DropdownItem key="cTrader">cTrader</DropdownItem>
-                    </DropdownMenu>
-                  </Dropdown>
-
-                  <div className="flex gap-4">
-                    <Dropdown>
-                      <DropdownTrigger>
-                        <Button variant="flat" className="bg-default-100/50">
-                          Type: {localFormData.type}
-                        </Button>
-                      </DropdownTrigger>
-                      <DropdownMenu
-                        selectedKeys={[localFormData.type]}
-                        onSelectionChange={(keys) => setLocalFormData(prev => ({
-                          ...prev,
-                          type: Array.from(keys)[0] as AccountType
-                        }))}
-                      >
-                        <DropdownItem key="Live">Live</DropdownItem>
-                        <DropdownItem key="Demo">Demo</DropdownItem>
-                      </DropdownMenu>
-                    </Dropdown>
-
-                    <Dropdown>
-                      <DropdownTrigger>
-                        <Button variant="flat" className="bg-default-100/50">
-                          Currency: {localFormData.currency}
-                        </Button>
-                      </DropdownTrigger>
-                      <DropdownMenu
-                        selectedKeys={[localFormData.currency]}
-                        onSelectionChange={(keys) => setLocalFormData(prev => ({
-                          ...prev,
-                          currency: Array.from(keys)[0] as Currency
-                        }))}
-                      >
-                        <DropdownItem key="USD">USD</DropdownItem>
-                        <DropdownItem key="EUR">EUR</DropdownItem>
-                        <DropdownItem key="GBP">GBP</DropdownItem>
-                      </DropdownMenu>
-                    </Dropdown>
-                  </div>
-                </div>
-              </ModalBody>
-              <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
-                  Cancel
-                </Button>
-                <Button color="primary" type="submit">
-                  Add Account
-                </Button>
-              </ModalFooter>
-            </form>
-          )}
-        </ModalContent>
-      </Modal>
-    );
-  };
+  const router = useRouter();
 
   return (
-    <div className="container mx-auto px-6 py-8">
-      {/* Header Section */}
-      <div className="flex flex-col gap-4 mb-8">
-        <div className="flex justify-between items-center">
-          <h1 className="text-4xl font-bold">Trading Accounts</h1>
-          <Button 
-            onPress={onOpen}
-            color="primary"
-            endContent={<Plus className="w-4 h-4" />}
-          >
-            Add Account
-          </Button>
+    <div className="min-h-screen bg-background">
+      <HeaderCard 
+        title="Trading Accounts"
+        subtitle="Manage and monitor your connected trading accounts"
+        icon={Wallet2}
+      />
+      
+      <div className="max-w-7xl mx-auto py-8 px-6">
+        {/* Account Summary Cards */}
+        <div className="grid grid-cols-4 gap-6 mb-8">
+          <Card className="bg-default-50 dark:bg-default-100/50 backdrop-blur-lg backdrop-saturate-150 border-default-200/50">
+            <CardContent className="p-6">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="p-2 rounded-lg bg-primary/10">
+                  <Wallet2 className="h-5 w-5 text-primary" />
+                </div>
+                <h3 className="text-foreground font-medium">Total Balance</h3>
+              </div>
+              <p className="text-2xl font-semibold text-foreground">$158,770</p>
+              <p className="text-sm text-success flex items-center gap-1 mt-1">
+                <TrendingUp className="h-4 w-4" />
+                +2.4% today
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-default-50 dark:bg-default-100/50 backdrop-blur-lg backdrop-saturate-150 border-default-200/50">
+            <CardContent className="p-6">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="p-2 rounded-lg bg-primary/10">
+                  <BarChart2 className="h-5 w-5 text-primary" />
+                </div>
+                <h3 className="text-foreground font-medium">Open Trades</h3>
+              </div>
+              <p className="text-2xl font-semibold text-foreground">3</p>
+              <p className="text-sm text-muted-foreground mt-1">Across all accounts</p>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-default-50 dark:bg-default-100/50 backdrop-blur-lg backdrop-saturate-150 border-default-200/50">
+            <CardContent className="p-6">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="p-2 rounded-lg bg-primary/10">
+                  <Shield className="h-5 w-5 text-primary" />
+                </div>
+                <h3 className="text-foreground font-medium">Max Drawdown</h3>
+              </div>
+              <p className="text-2xl font-semibold text-foreground">2.1%</p>
+              <p className="text-sm text-muted-foreground mt-1">Monthly limit: 5%</p>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-default-50 dark:bg-default-100/50 backdrop-blur-lg backdrop-saturate-150 border-default-200/50">
+            <CardContent className="p-6">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="p-2 rounded-lg bg-primary/10">
+                  <Clock className="h-5 w-5 text-primary" />
+                </div>
+                <h3 className="text-foreground font-medium">Trading Time</h3>
+              </div>
+              <p className="text-2xl font-semibold text-foreground">14d</p>
+              <p className="text-sm text-muted-foreground mt-1">Challenge period</p>
+            </CardContent>
+          </Card>
         </div>
-        <p className="text-default-500">
-          Manage your trading accounts and monitor performance
-        </p>
-      </div>
 
-      {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <Card className="bg-default-50">
-          <CardBody className="flex flex-row items-center gap-4">
-            <div className="p-3 rounded-lg bg-primary/10">
-              <Wallet className="w-6 h-6 text-primary" />
-            </div>
-            <div>
-              <p className="text-default-500">Total Accounts</p>
-              <p className="text-2xl font-semibold">{accounts.length}</p>
-            </div>
-          </CardBody>
-        </Card>
+        {/* Connected Accounts */}
+        <div className="space-y-6">
+          {accounts.map((account) => (
+            <Card key={account.id} className="bg-default-50 dark:bg-default-100/50 backdrop-blur-lg backdrop-saturate-150 border-default-200/50">
+              <CardContent className="p-6">
+                <div className="flex justify-between items-start mb-6">
+                  <div className="flex items-center gap-4">
+                    <BrokerIcon broker={account.broker} />
+                    <div>
+                      <h3 className="text-xl font-semibold text-foreground">{account.broker}</h3>
+                      <p className="text-sm text-muted-foreground">{account.type}</p>
+                    </div>
+                  </div>
+                  <div className="flex gap-2">
+                    <Button
+                      variant="flat"
+                      color="primary"
+                      className="bg-primary/10 hover:bg-primary/20 text-foreground"
+                      startContent={<Settings className="h-4 w-4" />}
+                      onClick={() => router.push(`/accounts/${account.id}/settings`)}
+                    >
+                      Settings
+                    </Button>
+                    <Button
+                      variant="flat"
+                      color="primary"
+                      className="bg-primary/10 hover:bg-primary/20 text-foreground"
+                      endContent={<ChevronRight className="h-4 w-4" />}
+                      onClick={() => router.push(`/accounts/${account.id}`)}
+                    >
+                      View Details
+                    </Button>
+                  </div>
+                </div>
 
-        <Card className="bg-default-50">
-          <CardBody className="flex flex-row items-center gap-4">
-            <div className="p-3 rounded-lg bg-primary/10">
-              <TrendingUp className="w-6 h-6 text-primary" />
-            </div>
-            <div>
-              <p className="text-default-500">Total Equity</p>
-              <p className="text-2xl font-semibold">${totalEquity.toLocaleString()}</p>
-            </div>
-          </CardBody>
-        </Card>
+                <div className="grid grid-cols-6 gap-6">
+                  <div className="p-4 bg-background/20 backdrop-blur-lg rounded-lg border border-default-200/50">
+                    <p className="text-sm text-muted-foreground mb-1">Balance</p>
+                    <p className="text-lg font-semibold text-foreground">
+                      ${account.metrics.balance.toLocaleString()}
+                    </p>
+                  </div>
 
-        <Card className={`bg-default-50`}>
-          <CardBody className="flex flex-row items-center gap-4">
-            <div className="p-3 rounded-lg bg-primary/10">
-              <BarChart3 className="w-6 h-6 text-primary" />
-            </div>
-            <div>
-              <p className="text-default-500">Total Profit</p>
-              <p className="text-2xl font-semibold">${totalProfit.toLocaleString()}</p>
-            </div>
-          </CardBody>
-        </Card>
+                  <div className="p-4 bg-background/20 backdrop-blur-lg rounded-lg border border-default-200/50">
+                    <p className="text-sm text-muted-foreground mb-1">Equity</p>
+                    <p className="text-lg font-semibold text-foreground">
+                      ${account.metrics.equity.toLocaleString()}
+                    </p>
+                  </div>
 
-        <Card className="bg-default-50">
-          <CardBody className="flex flex-row items-center gap-4">
-            <div className="p-3 rounded-lg bg-primary/10">
-              <RefreshCcw className="w-6 h-6 text-primary" />
-            </div>
-            <div>
-              <p className="text-default-500">Last Updated</p>
-              <p className="text-2xl font-semibold">2024-03-20T10:30:00Z</p>
-            </div>
-          </CardBody>
-        </Card>
+                  <div className="p-4 bg-background/20 backdrop-blur-lg rounded-lg border border-default-200/50">
+                    <p className="text-sm text-muted-foreground mb-1">Drawdown</p>
+                    <p className="text-lg font-semibold text-foreground">
+                      {account.metrics.drawdown}%
+                    </p>
+                  </div>
+
+                  <div className="p-4 bg-background/20 backdrop-blur-lg rounded-lg border border-default-200/50">
+                    <p className="text-sm text-muted-foreground mb-1">Open Trades</p>
+                    <p className="text-lg font-semibold text-foreground">
+                      {account.metrics.openTrades}
+                    </p>
+                  </div>
+
+                  <div className="p-4 bg-background/20 backdrop-blur-lg rounded-lg border border-default-200/50">
+                    <p className="text-sm text-muted-foreground mb-1">Daily P&L</p>
+                    <p className="text-lg font-semibold text-success">
+                      +${account.metrics.dailyPnL}
+                    </p>
+                  </div>
+
+                  <div className="p-4 bg-background/20 backdrop-blur-lg rounded-lg border border-default-200/50">
+                    <p className="text-sm text-muted-foreground mb-1">Last Trade</p>
+                    <p className="text-lg font-semibold text-foreground">
+                      {account.metrics.lastTrade}
+                    </p>
+                  </div>
+                </div>
+
+                {account.type === "Challenge Account" && (
+                  <div className="mt-6 p-4 bg-warning/10 text-warning rounded-lg flex items-center gap-2">
+                    <AlertCircle className="h-5 w-5" />
+                    <p className="text-sm">
+                      Challenge ends in 14 days. Maximum drawdown: 5%
+                    </p>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          ))}
+        </div>
       </div>
     </div>
   );
