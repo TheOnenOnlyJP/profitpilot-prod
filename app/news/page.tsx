@@ -6,16 +6,7 @@ import { HeaderCard } from '@/components/ui/header-card';
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion';
 import { FlagIcon } from '@/components/ui/flag-icon';
 
-interface NewsEvent {
-  id: string;
-  currency: string;
-  countryCode: string;
-  event: string;
-  time: string;
-  forecast: string | number;
-  previous: string | number;
-  impactLevel: 1 | 2 | 3;
-}
+
 
 interface MarketAlert {
   id: string;
