@@ -113,7 +113,7 @@ export default function NewsPage() {
 
 const memoizedNewsEvents = useMemo(() => {
   return newsEvents;
-}, []);
+}, [newsEvents]);
 
   const filteredEvents = useMemo(() => {
     return memoizedNewsEvents.filter(event => {
