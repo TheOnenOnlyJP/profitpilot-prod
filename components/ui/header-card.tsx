@@ -1,5 +1,5 @@
-import { Bell, Settings } from 'lucide-react';
-import { Card } from '@/components/ui/card';
+import { Bell, Settings } from "lucide-react";
+import { Card } from "@/components/ui/card";
 
 interface HeaderCardProps {
   title: string;
@@ -9,12 +9,12 @@ interface HeaderCardProps {
   children?: React.ReactNode;
 }
 
-export function HeaderCard({ 
-  title, 
-  timeZone, 
-  onNotificationsClick, 
+export function HeaderCard({
+  title,
+  timeZone,
+  onNotificationsClick,
   onSettingsClick,
-  children 
+  children,
 }: HeaderCardProps) {
   return (
     <Card className="border-b border-border sticky top-0 z-10">
@@ -25,13 +25,13 @@ export function HeaderCard({
             <span className="text-muted-foreground">{timeZone} Time Zone</span>
           </div>
           <div className="flex items-center space-x-4">
-            <button 
+            <button
               onClick={onNotificationsClick}
               className="p-2 text-muted-foreground hover:text-foreground transition-colors"
             >
               <Bell className="h-5 w-5" />
             </button>
-            <button 
+            <button
               onClick={onSettingsClick}
               className="p-2 text-muted-foreground hover:text-foreground transition-colors"
             >
