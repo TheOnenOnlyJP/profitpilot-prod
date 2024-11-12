@@ -18,9 +18,8 @@ import {
   Textarea,
   useDisclosure,
 } from "@nextui-org/react";
-import { SearchIcon, Upload, X } from "lucide-react";
+import { SearchIcon, Upload } from "lucide-react";
 import { useState } from "react";
-import { useDebouncedCallback } from "use-debounce";
 
 // Define types for our indicators
 type Platform = "MT4" | "MT5" | "TradingView";

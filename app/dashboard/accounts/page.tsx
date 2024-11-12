@@ -140,7 +140,9 @@ function AccountCard({
               color="primary"
               className="bg-primary/10 hover:bg-primary/20 text-foreground"
               startContent={<Settings className="h-4 w-4" />}
-              onClick={() => router.push(`/accounts/${account.id}/settings`)}
+              onClick={() =>
+                router.push(`/dashboard/accounts/${account.id}/settings`)
+              }
             >
               Settings
             </Button>
@@ -149,7 +151,7 @@ function AccountCard({
               color="primary"
               className="bg-primary/10 hover:bg-primary/20 text-foreground"
               endContent={<ChevronRight className="h-4 w-4" />}
-              onClick={() => router.push(`/accounts/${account.id}`)}
+              onClick={() => router.push(`/dashboard/accounts/${account.id}`)}
             >
               View Details
             </Button>
