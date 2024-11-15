@@ -1,28 +1,28 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { ChevronDown } from "lucide-react"
-import { cn } from "@/lib/utils"
+import * as React from "react";
+import { ChevronDown } from "lucide-react";
+import { cn } from "@/helpers/lib/utils";
 
 interface AccordionProps {
-  children: React.ReactNode
-  type?: "single" | "multiple"
-  defaultValue?: string | string[]
-  collapsible?: boolean
-  className?: string
+  children: React.ReactNode;
+  type?: "single" | "multiple";
+  defaultValue?: string | string[];
+  collapsible?: boolean;
+  className?: string;
 }
 
 interface AccordionItemProps {
-  value: string
-  title?: React.ReactNode
-  children: React.ReactNode
-  className?: string
+  value: string;
+  title?: React.ReactNode;
+  children: React.ReactNode;
+  className?: string;
 }
 
 const AccordionContext = React.createContext<{
-  expanded: string[]
-  toggle: (value: string) => void
-}>({ expanded: [], toggle: () => {} })
+  expanded: string[];
+  toggle: (value: string) => void;
+}>({ expanded: [], toggle: () => {} });
 
 const Accordion = ({
   children,
@@ -33,26 +33,29 @@ const Accordion = ({
 }: AccordionProps) => {
   const [expanded, setExpanded] = React.useState<string[]>(() => {
     if (defaultValue) {
-      return Array.isArray(defaultValue) ? defaultValue : [defaultValue]
+      return Array.isArray(defaultValue) ? defaultValue : [defaultValue];
     }
-    return []
-  })
+    return [];
+  });
 
-  const toggle = React.useCallback((value: string) => {
-    setExpanded(prev => {
-      if (type === "single") {
-        if (collapsible && prev[0] === value) {
-          return []
+  const toggle = React.useCallback(
+    (value: string) => {
+      setExpanded((prev) => {
+        if (type === "single") {
+          if (collapsible && prev[0] === value) {
+            return [];
+          }
+          return [value];
         }
-        return [value]
-      }
-      
-      if (prev.includes(value)) {
-        return prev.filter(v => v !== value)
-      }
-      return [...prev, value]
-    })
-  }, [type, collapsible])
+
+        if (prev.includes(value)) {
+          return prev.filter((v) => v !== value);
+        }
+        return [...prev, value];
+      });
+    },
+    [type, collapsible]
+  );
 
   return (
     <AccordionContext.Provider value={{ expanded, toggle }}>
@@ -60,12 +63,17 @@ const Accordion = ({
         {children}
       </div>
     </AccordionContext.Provider>
-  )
-}
+  );
+};
 
-const AccordionItem = ({ value, title, children, className }: AccordionItemProps) => {
-  const { expanded, toggle } = React.useContext(AccordionContext)
-  const isExpanded = expanded.includes(value)
+const AccordionItem = ({
+  value,
+  title,
+  children,
+  className,
+}: AccordionItemProps) => {
+  const { expanded, toggle } = React.useContext(AccordionContext);
+  const isExpanded = expanded.includes(value);
 
   return (
     <div className={cn("", className)}>
@@ -82,14 +90,10 @@ const AccordionItem = ({ value, title, children, className }: AccordionItemProps
           )}
         />
       </button>
-      {isExpanded && (
-        <div className="px-4 pb-4 pt-0">
-          {children}
-        </div>
-      )}
+      {isExpanded && <div className="px-4 pb-4 pt-0">{children}</div>}
     </div>
-  )
-}
+  );
+};
 
 const AccordionTrigger = React.forwardRef<
   HTMLButtonElement,
@@ -105,8 +109,8 @@ const AccordionTrigger = React.forwardRef<
   >
     {children}
   </button>
-))
-AccordionTrigger.displayName = "AccordionTrigger"
+));
+AccordionTrigger.displayName = "AccordionTrigger";
 
 const AccordionContent = React.forwardRef<
   HTMLDivElement,
@@ -119,7 +123,7 @@ const AccordionContent = React.forwardRef<
   >
     {children}
   </div>
-))
-AccordionContent.displayName = "AccordionContent"
+));
+AccordionContent.displayName = "AccordionContent";
 
-export { Accordion, AccordionItem, AccordionTrigger, AccordionContent }
+export { Accordion, AccordionItem, AccordionTrigger, AccordionContent };

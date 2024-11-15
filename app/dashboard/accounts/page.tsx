@@ -1,7 +1,7 @@
 "use client";
 
-import { Card, CardContent } from "@/components/ui/card";
-import { BrokerIcon } from "@/components/ui/broker-icon";
+import { Card, CardContent } from "@/helpers/components/ui/card";
+import { BrokerIcon } from "@/helpers/components/ui/broker-icon";
 import {
   Wallet2,
   ChevronRight,
@@ -14,9 +14,9 @@ import {
   Plus,
 } from "lucide-react";
 import { Button } from "@nextui-org/react";
-import { HeaderCard } from "@/components/ui/header-card";
+import { HeaderCard } from "@/helpers/components/ui/header-card";
 import { useRouter } from "next/navigation";
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 
 interface AccountMetrics {
   balance: number;
@@ -253,6 +253,26 @@ export default function AccountsPage() {
     },
   ];
 
+  useEffect(() => {
+    const userJson = localStorage.getItem("user");
+    if (!userJson) {
+      console.log("No user found in localStorage");
+      return;
+    }
+
+    const user = JSON.parse(userJson);
+    const userId = user?.data._id;
+
+    fetch(`/api/accounts/connect/${userId}`).then((response) => {
+      if (response.ok) {
+        console.log("Accounts fetched successfully.");
+      }
+      response.json().then((data) => {
+        console.log(data);
+      });
+    });
+  }, []);
+
   return (
     <div className="min-h-screen bg-background">
       <HeaderCard
@@ -279,7 +299,7 @@ export default function AccountsPage() {
         <div className="space-y-6">
           <Card
             className="cursor-pointer hover:bg-default-100/50 transition-colors"
-            onClick={() => router.push("/accounts/create")}
+            onClick={() => router.push("/dashboard/accounts/create")}
           >
             <CardContent className="flex items-center justify-center py-12">
               <Plus className="h-8 w-8 text-primary" />

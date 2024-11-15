@@ -1,119 +1,134 @@
 "use client";
-import { useState, useMemo } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
-import { Clock, Info, Filter, Bell, Newspaper } from 'lucide-react';
-import { HeaderCard } from '@/components/ui/header-card';
-import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion';
-import { FlagIcon } from '@/components/ui/flag-icon';
-import { NewsEvent } from '@/types/news';
+import { useState, useMemo } from "react";
+import { Card, CardContent } from "@/helpers/components/ui/card";
+import { Clock, Info, Filter, Bell, Newspaper } from "lucide-react";
+import { HeaderCard } from "@/helpers/components/ui/header-card";
+import {
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+} from "@/helpers/components/ui/accordion";
+import { FlagIcon } from "@/helpers/components/ui/flag-icon";
+import { NewsEvent } from "@/types/news";
 
 interface MarketAlert {
   id: string;
-  type: 'warning' | 'info' | 'critical';
+  type: "warning" | "info" | "critical";
   message: string;
   time: string;
 }
 
 export default function NewsPage() {
-  const [timeZone] = useState('PST');
-  const [activeFilters, setActiveFilters] = useState<{ [key: string]: boolean }>({
-    'usd': true,
-    'eur': true,
-    'gbp': true,
-    'jpy': true,
-    '1_impact': true,
-    '2_impact': true,
-    '3_impact': true
+  const [timeZone] = useState("PST");
+  const [activeFilters, setActiveFilters] = useState<{
+    [key: string]: boolean;
+  }>({
+    usd: true,
+    eur: true,
+    gbp: true,
+    jpy: true,
+    "1_impact": true,
+    "2_impact": true,
+    "3_impact": true,
   });
 
   const marketAlerts: MarketAlert[] = [
     {
-      id: '1',
-      type: 'critical',
-      message: 'High impact news: US Retail Sales in 30 minutes',
-      time: '5:30am'
+      id: "1",
+      type: "critical",
+      message: "High impact news: US Retail Sales in 30 minutes",
+      time: "5:30am",
     },
     {
-      id: '2',
-      type: 'warning',
-      message: 'EUR/USD increased volatility expected',
-      time: '5:45am'
-    }
+      id: "2",
+      type: "warning",
+      message: "EUR/USD increased volatility expected",
+      time: "5:45am",
+    },
   ];
 
   const newsEvents = useMemo<NewsEvent[]>(() => {
     return [
       {
-        id: '1',
-        currency: 'USD',
-        countryCode: 'US',
-        event: 'Retail Sales m/m',
-        time: '6:00am',
+        id: "1",
+        currency: "USD",
+        countryCode: "US",
+        event: "Retail Sales m/m",
+        time: "6:00am",
         forecast: 0.06,
         previous: 0.03,
-        impactLevel: 3 as 1 | 2 | 3
+        impactLevel: 3 as 1 | 2 | 3,
       },
       {
-        id: '2',
-        currency: 'EUR',
-        countryCode: 'EU',
-        event: 'CPI y/y',
-        time: '7:00am',
+        id: "2",
+        currency: "EUR",
+        countryCode: "EU",
+        event: "CPI y/y",
+        time: "7:00am",
         forecast: 0.01,
         previous: 0.03,
-        impactLevel: 3 as 1 | 2 | 3
+        impactLevel: 3 as 1 | 2 | 3,
       },
       {
-        id: '3',
-        currency: 'GBP',
-        countryCode: 'GB',
-        event: 'GDP q/q',
-        time: '8:00am',
+        id: "3",
+        currency: "GBP",
+        countryCode: "GB",
+        event: "GDP q/q",
+        time: "8:00am",
         forecast: -0.01,
         previous: 0.02,
-        impactLevel: 2 as 1 | 2 | 3
+        impactLevel: 2 as 1 | 2 | 3,
       },
       {
-        id: '4',
-        currency: 'JPY',
-        countryCode: 'JP',
-        event: 'Unemployment Rate',
-        time: '9:00am',
+        id: "4",
+        currency: "JPY",
+        countryCode: "JP",
+        event: "Unemployment Rate",
+        time: "9:00am",
         forecast: 2.5,
         previous: 2.4,
-        impactLevel: 1 as 1 | 2 | 3
-      }
+        impactLevel: 1 as 1 | 2 | 3,
+      },
     ];
   }, []);
 
   const getImpactBars = (level: number) => (
     <div className="flex gap-0.5">
-      <div className={`w-2 h-3 ${level >= 1 ? 'bg-red-500 dark:bg-red-400' : 'bg-muted'}`}></div>
-      <div className={`w-2 h-3 ${level >= 2 ? 'bg-red-500 dark:bg-red-400' : 'bg-muted'}`}></div>
-      <div className={`w-2 h-3 ${level >= 3 ? 'bg-red-500 dark:bg-red-400' : 'bg-muted'}`}></div>
+      <div
+        className={`w-2 h-3 ${level >= 1 ? "bg-red-500 dark:bg-red-400" : "bg-muted"}`}
+      ></div>
+      <div
+        className={`w-2 h-3 ${level >= 2 ? "bg-red-500 dark:bg-red-400" : "bg-muted"}`}
+      ></div>
+      <div
+        className={`w-2 h-3 ${level >= 3 ? "bg-red-500 dark:bg-red-400" : "bg-muted"}`}
+      ></div>
     </div>
   );
 
   const handleFiltersChange = (filterKey: string, checked: boolean) => {
-    setActiveFilters(prev => ({
+    setActiveFilters((prev) => ({
       ...prev,
-      [filterKey]: checked
+      [filterKey]: checked,
     }));
   };
 
-const memoizedNewsEvents = useMemo(() => {
-  return newsEvents;
-}, [newsEvents]);
+  const memoizedNewsEvents = useMemo(() => {
+    return newsEvents;
+  }, [newsEvents]);
 
   const filteredEvents = useMemo(() => {
-    return memoizedNewsEvents.filter(event => {
+    return memoizedNewsEvents.filter((event) => {
       // Check if any filters are active
-      const hasActiveFilters = Object.values(activeFilters).some(value => value);
+      const hasActiveFilters = Object.values(activeFilters).some(
+        (value) => value
+      );
       if (!hasActiveFilters) return true; // Show all events if no filters are active
 
       // Check currency filter
       const currencyMatch = activeFilters[event.currency.toLowerCase()];
-      
+
       // Check impact filter
       const impactMatch = activeFilters[`${event.impactLevel}_impact`];
 
@@ -123,22 +138,24 @@ const memoizedNewsEvents = useMemo(() => {
   }, [memoizedNewsEvents, activeFilters]);
 
   const getActiveFilterCount = (filters: { [key: string]: boolean }) => {
-    const currencyFilters = ['usd', 'eur', 'gbp', 'jpy'];
-    const impactFilters = ['1_impact', '2_impact', '3_impact'];
-    
-    const activeCurrencies = currencyFilters.filter(key => filters[key]).length;
-    const activeImpacts = impactFilters.filter(key => filters[key]).length;
-    
+    const currencyFilters = ["usd", "eur", "gbp", "jpy"];
+    const impactFilters = ["1_impact", "2_impact", "3_impact"];
+
+    const activeCurrencies = currencyFilters.filter(
+      (key) => filters[key]
+    ).length;
+    const activeImpacts = impactFilters.filter((key) => filters[key]).length;
+
     return {
       currencies: activeCurrencies,
       impacts: activeImpacts,
-      total: activeCurrencies + activeImpacts
+      total: activeCurrencies + activeImpacts,
     };
   };
 
   return (
     <div className="min-h-screen bg-background">
-      <HeaderCard 
+      <HeaderCard
         title="Market News"
         timeZone={timeZone}
         onNotificationsClick={() => {
@@ -162,18 +179,22 @@ const memoizedNewsEvents = useMemo(() => {
                   <div className="flex gap-2">
                     {getActiveFilterCount(activeFilters).currencies > 0 && (
                       <span className="px-2.5 py-0.5 text-xs font-medium rounded-full bg-emerald-500/10 text-emerald-500 dark:bg-emerald-500/20">
-                        {getActiveFilterCount(activeFilters).currencies} Currencies
+                        {getActiveFilterCount(activeFilters).currencies}{" "}
+                        Currencies
                       </span>
                     )}
                     {getActiveFilterCount(activeFilters).impacts > 0 && (
                       <span className="px-2.5 py-0.5 text-xs font-medium rounded-full bg-blue-500/10 text-blue-500 dark:bg-blue-500/20">
-                        {getActiveFilterCount(activeFilters).impacts} Impact Levels
+                        {getActiveFilterCount(activeFilters).impacts} Impact
+                        Levels
                       </span>
                     )}
                   </div>
                 )}
                 <span className="text-sm text-muted-foreground">
-                  {getActiveFilterCount(activeFilters).total === 0 ? 'None' : ''}
+                  {getActiveFilterCount(activeFilters).total === 0
+                    ? "None"
+                    : ""}
                 </span>
               </div>
             </AccordionTrigger>
@@ -182,20 +203,33 @@ const memoizedNewsEvents = useMemo(() => {
                 <div className="flex justify-between items-start gap-12">
                   {/* Left side - Currencies */}
                   <div className="flex-1">
-                    <h3 className="text-sm font-medium mb-4 text-foreground">Currencies</h3>
+                    <h3 className="text-sm font-medium mb-4 text-foreground">
+                      Currencies
+                    </h3>
                     <div className="grid grid-cols-2 gap-4">
-                      {['USD', 'EUR', 'GBP', 'JPY'].map((currency) => (
+                      {["USD", "EUR", "GBP", "JPY"].map((currency) => (
                         <div key={currency} className="flex items-center">
                           <label className="flex items-center gap-3 cursor-pointer group">
                             <input
                               type="checkbox"
                               id={`currency-${currency.toLowerCase()}`}
                               checked={activeFilters[currency.toLowerCase()]}
-                              onChange={(e) => handleFiltersChange(currency.toLowerCase(), e.target.checked)}
+                              onChange={(e) =>
+                                handleFiltersChange(
+                                  currency.toLowerCase(),
+                                  e.target.checked
+                                )
+                              }
                               className="w-4 h-4 rounded border-border text-primary focus:ring-primary/20"
                             />
                             <div className="flex items-center gap-2 group-hover:text-foreground transition-colors">
-                              <FlagIcon country={currency === 'EUR' ? 'EU' : currency.slice(0, 2)} />
+                              <FlagIcon
+                                country={
+                                  currency === "EUR"
+                                    ? "EU"
+                                    : currency.slice(0, 2)
+                                }
+                              />
                               <span>{currency}</span>
                             </div>
                           </label>
@@ -206,12 +240,14 @@ const memoizedNewsEvents = useMemo(() => {
 
                   {/* Right side - Impact */}
                   <div className="flex-1">
-                    <h3 className="text-sm font-medium mb-4 text-foreground">Impact</h3>
+                    <h3 className="text-sm font-medium mb-4 text-foreground">
+                      Impact
+                    </h3>
                     <div className="space-y-4">
                       {[
-                        { id: '1_impact', label: 'Low Impact', bars: 1 },
-                        { id: '2_impact', label: 'Medium Impact', bars: 2 },
-                        { id: '3_impact', label: 'High Impact', bars: 3 }
+                        { id: "1_impact", label: "Low Impact", bars: 1 },
+                        { id: "2_impact", label: "Medium Impact", bars: 2 },
+                        { id: "3_impact", label: "High Impact", bars: 3 },
                       ].map(({ id, label, bars }) => (
                         <div key={id} className="flex items-center">
                           <label className="flex items-center gap-3 cursor-pointer group">
@@ -219,7 +255,9 @@ const memoizedNewsEvents = useMemo(() => {
                               type="checkbox"
                               id={`impact-${id}`}
                               checked={activeFilters[id]}
-                              onChange={(e) => handleFiltersChange(id, e.target.checked)}
+                              onChange={(e) =>
+                                handleFiltersChange(id, e.target.checked)
+                              }
                               className="w-4 h-4 rounded border-border text-primary focus:ring-primary/20"
                             />
                             <div className="flex items-center gap-3 group-hover:text-foreground transition-colors">
@@ -227,7 +265,7 @@ const memoizedNewsEvents = useMemo(() => {
                                 {Array.from({ length: 3 }).map((_, i) => (
                                   <div
                                     key={i}
-                                    className={`w-2 h-3 ${i < bars ? 'bg-red-500 dark:bg-red-400' : 'bg-muted'}`}
+                                    className={`w-2 h-3 ${i < bars ? "bg-red-500 dark:bg-red-400" : "bg-muted"}`}
                                   />
                                 ))}
                               </div>
@@ -244,7 +282,7 @@ const memoizedNewsEvents = useMemo(() => {
           </AccordionItem>
         </Accordion>
       </HeaderCard>
-      
+
       {/* Main Content */}
       <div className="max-w-7xl mx-auto py-8 px-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -257,7 +295,9 @@ const memoizedNewsEvents = useMemo(() => {
                     <div className="p-2 rounded-lg bg-primary/10">
                       <Clock className="h-5 w-5 text-primary" />
                     </div>
-                    <h2 className="text-xl font-semibold">Upcoming News Events</h2>
+                    <h2 className="text-xl font-semibold">
+                      Upcoming News Events
+                    </h2>
                   </div>
                 </div>
 
@@ -273,8 +313,8 @@ const memoizedNewsEvents = useMemo(() => {
                   </div>
 
                   {/* News Events */}
-                  {filteredEvents.map(event => (
-                    <button 
+                  {filteredEvents.map((event) => (
+                    <button
                       key={event.id}
                       className="w-full grid grid-cols-[1fr_1.5fr_1fr_1fr_1fr_1fr] items-center py-3 px-4 hover:bg-accent/50 rounded-lg text-left transition-colors"
                     >
@@ -282,9 +322,7 @@ const memoizedNewsEvents = useMemo(() => {
                         <FlagIcon country={event.countryCode} />
                         <span className="font-medium">{event.currency}</span>
                       </div>
-                      <div className="font-medium">
-                        {event.event}
-                      </div>
+                      <div className="font-medium">{event.event}</div>
                       <div className="flex items-center text-sm text-muted-foreground">
                         <Clock className="h-4 w-4 mr-2" />
                         {event.time}
@@ -293,17 +331,23 @@ const memoizedNewsEvents = useMemo(() => {
                         {getImpactBars(event.impactLevel)}
                       </div>
                       <div>
-                        <span className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${
-                          Number(event.forecast) > Number(event.previous) 
-                            ? 'bg-emerald-500/10 text-emerald-500 dark:bg-emerald-500/20'
-                            : 'bg-red-500/10 text-red-500 dark:bg-red-500/20'
-                        }`}>
-                          {typeof event.forecast === 'number' ? event.forecast.toFixed(2) : event.forecast}
+                        <span
+                          className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${
+                            Number(event.forecast) > Number(event.previous)
+                              ? "bg-emerald-500/10 text-emerald-500 dark:bg-emerald-500/20"
+                              : "bg-red-500/10 text-red-500 dark:bg-red-500/20"
+                          }`}
+                        >
+                          {typeof event.forecast === "number"
+                            ? event.forecast.toFixed(2)
+                            : event.forecast}
                         </span>
                       </div>
                       <div>
                         <span className="inline-block px-3 py-1 bg-accent rounded-full text-sm font-medium">
-                          {typeof event.previous === 'number' ? event.previous.toFixed(2) : event.previous}
+                          {typeof event.previous === "number"
+                            ? event.previous.toFixed(2)
+                            : event.previous}
                         </span>
                       </div>
                     </button>
@@ -325,13 +369,15 @@ const memoizedNewsEvents = useMemo(() => {
                   <h2 className="text-xl font-semibold">Market Alerts</h2>
                 </div>
                 <div className="space-y-3">
-                  {marketAlerts.map(alert => (
-                    <div 
+                  {marketAlerts.map((alert) => (
+                    <div
                       key={alert.id}
                       className={`p-4 rounded-lg flex items-center space-x-3 ${
-                        alert.type === 'critical' ? 'bg-red-500/10 text-red-500 dark:bg-red-500/20' :
-                        alert.type === 'warning' ? 'bg-amber-500/10 text-amber-500 dark:bg-amber-500/20' :
-                        'bg-blue-500/10 text-blue-500 dark:bg-blue-500/20'
+                        alert.type === "critical"
+                          ? "bg-red-500/10 text-red-500 dark:bg-red-500/20"
+                          : alert.type === "warning"
+                            ? "bg-amber-500/10 text-amber-500 dark:bg-amber-500/20"
+                            : "bg-blue-500/10 text-blue-500 dark:bg-blue-500/20"
                       }`}
                     >
                       <Info className="h-5 w-5 flex-shrink-0" />
@@ -356,11 +402,22 @@ const memoizedNewsEvents = useMemo(() => {
                 </div>
                 <div className="space-y-4">
                   {[
-                    { time: '10:30 AM', title: 'EUR/USD rises after US retail data' },
-                    { time: '10:15 AM', title: 'Fed officials signal cautious approach' }
+                    {
+                      time: "10:30 AM",
+                      title: "EUR/USD rises after US retail data",
+                    },
+                    {
+                      time: "10:15 AM",
+                      title: "Fed officials signal cautious approach",
+                    },
                   ].map((news, index) => (
-                    <div key={index} className="p-4 bg-accent/50 rounded-lg hover:bg-accent transition-colors">
-                      <p className="text-sm text-muted-foreground">{news.time}</p>
+                    <div
+                      key={index}
+                      className="p-4 bg-accent/50 rounded-lg hover:bg-accent transition-colors"
+                    >
+                      <p className="text-sm text-muted-foreground">
+                        {news.time}
+                      </p>
                       <p className="font-medium mt-1">{news.title}</p>
                     </div>
                   ))}

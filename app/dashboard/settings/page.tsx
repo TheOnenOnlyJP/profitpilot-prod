@@ -1,21 +1,35 @@
 "use client";
 
-import { useState } from 'react';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { 
-  Settings, Bell, Moon, Sun, Globe, Lock, 
-  Smartphone, Mail, Shield, Eye, EyeOff 
-} from 'lucide-react';
+import { useState } from "react";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+} from "@/helpers/components/ui/card";
+import {
+  Settings,
+  Bell,
+  Moon,
+  Sun,
+  Globe,
+  Lock,
+  Smartphone,
+  Mail,
+  Shield,
+  Eye,
+  EyeOff,
+} from "lucide-react";
 
 export default function SettingsPage() {
-  const [activeTab, setActiveTab] = useState('general');
+  const [activeTab, setActiveTab] = useState("general");
 
   const tabs = [
-    { id: 'general', label: 'General', icon: Settings },
-    { id: 'notifications', label: 'Notifications', icon: Bell },
-    { id: 'appearance', label: 'Appearance', icon: Moon },
-    { id: 'language', label: 'Language', icon: Globe },
-    { id: 'security', label: 'Security', icon: Lock },
+    { id: "general", label: "General", icon: Settings },
+    { id: "notifications", label: "Notifications", icon: Bell },
+    { id: "appearance", label: "Appearance", icon: Moon },
+    { id: "language", label: "Language", icon: Globe },
+    { id: "security", label: "Security", icon: Lock },
   ];
 
   return (
@@ -31,9 +45,11 @@ export default function SettingsPage() {
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
                   className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors
-                    ${activeTab === tab.id 
-                      ? 'bg-primary/10 text-primary' 
-                      : 'text-foreground hover:bg-accent'}`}
+                    ${
+                      activeTab === tab.id
+                        ? "bg-primary/10 text-primary"
+                        : "text-foreground hover:bg-accent"
+                    }`}
                 >
                   <Icon className="h-5 w-5" />
                   <span className="font-medium">{tab.label}</span>
@@ -44,7 +60,7 @@ export default function SettingsPage() {
 
           {/* Settings Content */}
           <div className="flex-1 space-y-6">
-            {activeTab === 'general' && (
+            {activeTab === "general" && (
               <>
                 <Card>
                   <CardHeader>
@@ -86,10 +102,16 @@ export default function SettingsPage() {
                     <div className="flex items-center justify-between">
                       <div>
                         <h3 className="font-medium">Risk Management</h3>
-                        <p className="text-sm text-muted-foreground">Enable risk calculations</p>
+                        <p className="text-sm text-muted-foreground">
+                          Enable risk calculations
+                        </p>
                       </div>
                       <label className="relative inline-flex items-center cursor-pointer">
-                        <input type="checkbox" className="sr-only peer" defaultChecked />
+                        <input
+                          type="checkbox"
+                          className="sr-only peer"
+                          defaultChecked
+                        />
                         <div className="w-11 h-6 bg-muted rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
                       </label>
                     </div>
@@ -98,7 +120,7 @@ export default function SettingsPage() {
               </>
             )}
 
-            {activeTab === 'notifications' && (
+            {activeTab === "notifications" && (
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
@@ -110,10 +132,16 @@ export default function SettingsPage() {
                   <div className="flex items-center justify-between p-4 bg-background/50 rounded-lg">
                     <div>
                       <h3 className="font-medium">Email Notifications</h3>
-                      <p className="text-sm text-muted-foreground">Receive updates about your account via email</p>
+                      <p className="text-sm text-muted-foreground">
+                        Receive updates about your account via email
+                      </p>
                     </div>
                     <label className="relative inline-flex items-center cursor-pointer">
-                      <input type="checkbox" className="sr-only peer" defaultChecked />
+                      <input
+                        type="checkbox"
+                        className="sr-only peer"
+                        defaultChecked
+                      />
                       <div className="w-11 h-6 bg-muted rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
                     </label>
                   </div>
@@ -121,10 +149,16 @@ export default function SettingsPage() {
                   <div className="flex items-center justify-between p-4 bg-background/50 rounded-lg">
                     <div>
                       <h3 className="font-medium">Trading Alerts</h3>
-                      <p className="text-sm text-muted-foreground">Get notified about important market events</p>
+                      <p className="text-sm text-muted-foreground">
+                        Get notified about important market events
+                      </p>
                     </div>
                     <label className="relative inline-flex items-center cursor-pointer">
-                      <input type="checkbox" className="sr-only peer" defaultChecked />
+                      <input
+                        type="checkbox"
+                        className="sr-only peer"
+                        defaultChecked
+                      />
                       <div className="w-11 h-6 bg-muted rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
                     </label>
                   </div>
@@ -132,10 +166,16 @@ export default function SettingsPage() {
                   <div className="flex items-center justify-between p-4 bg-background/50 rounded-lg">
                     <div>
                       <h3 className="font-medium">Journal Reminders</h3>
-                      <p className="text-sm text-muted-foreground">Daily reminders to update your trading journal</p>
+                      <p className="text-sm text-muted-foreground">
+                        Daily reminders to update your trading journal
+                      </p>
                     </div>
                     <label className="relative inline-flex items-center cursor-pointer">
-                      <input type="checkbox" className="sr-only peer" defaultChecked />
+                      <input
+                        type="checkbox"
+                        className="sr-only peer"
+                        defaultChecked
+                      />
                       <div className="w-11 h-6 bg-muted rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
                     </label>
                   </div>
@@ -143,7 +183,7 @@ export default function SettingsPage() {
               </Card>
             )}
 
-            {activeTab === 'appearance' && (
+            {activeTab === "appearance" && (
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
@@ -155,7 +195,9 @@ export default function SettingsPage() {
                   <div className="flex items-center justify-between p-4 bg-background/50 rounded-lg">
                     <div>
                       <h3 className="font-medium">Theme</h3>
-                      <p className="text-sm text-muted-foreground">Select your preferred theme</p>
+                      <p className="text-sm text-muted-foreground">
+                        Select your preferred theme
+                      </p>
                     </div>
                     <div className="flex gap-2">
                       <button className="p-2 rounded-lg bg-primary/10 text-primary hover:bg-primary/20">
@@ -170,7 +212,9 @@ export default function SettingsPage() {
                   <div className="flex items-center justify-between p-4 bg-background/50 rounded-lg">
                     <div>
                       <h3 className="font-medium">Compact Mode</h3>
-                      <p className="text-sm text-muted-foreground">Reduce spacing in the interface</p>
+                      <p className="text-sm text-muted-foreground">
+                        Reduce spacing in the interface
+                      </p>
                     </div>
                     <label className="relative inline-flex items-center cursor-pointer">
                       <input type="checkbox" className="sr-only peer" />
@@ -181,7 +225,7 @@ export default function SettingsPage() {
               </Card>
             )}
 
-            {activeTab === 'language' && (
+            {activeTab === "language" && (
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
@@ -222,7 +266,7 @@ export default function SettingsPage() {
               </Card>
             )}
 
-            {activeTab === 'security' && (
+            {activeTab === "security" && (
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
@@ -237,8 +281,12 @@ export default function SettingsPage() {
                         <Lock className="h-5 w-5 text-primary" />
                       </div>
                       <div>
-                        <h3 className="font-medium">Two-Factor Authentication</h3>
-                        <p className="text-sm text-muted-foreground">Add an extra layer of security</p>
+                        <h3 className="font-medium">
+                          Two-Factor Authentication
+                        </h3>
+                        <p className="text-sm text-muted-foreground">
+                          Add an extra layer of security
+                        </p>
                       </div>
                     </div>
                     <button className="px-4 py-2 bg-primary/10 text-primary rounded-lg hover:bg-primary/20 transition-colors">
@@ -253,7 +301,9 @@ export default function SettingsPage() {
                       </div>
                       <div>
                         <h3 className="font-medium">Password</h3>
-                        <p className="text-sm text-muted-foreground">Change your password</p>
+                        <p className="text-sm text-muted-foreground">
+                          Change your password
+                        </p>
                       </div>
                     </div>
                     <button className="px-4 py-2 bg-primary/10 text-primary rounded-lg hover:bg-primary/20 transition-colors">
@@ -268,7 +318,9 @@ export default function SettingsPage() {
                       </div>
                       <div>
                         <h3 className="font-medium">Security Log</h3>
-                        <p className="text-sm text-muted-foreground">View recent security activity</p>
+                        <p className="text-sm text-muted-foreground">
+                          View recent security activity
+                        </p>
                       </div>
                     </div>
                     <button className="px-4 py-2 bg-primary/10 text-primary rounded-lg hover:bg-primary/20 transition-colors">
@@ -283,4 +335,4 @@ export default function SettingsPage() {
       </div>
     </div>
   );
-} 
+}

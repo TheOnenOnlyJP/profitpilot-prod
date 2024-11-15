@@ -1,7 +1,7 @@
 "use client";
 
-import { Card, CardContent } from "@/components/ui/card";
-import { BrokerIcon } from "@/components/ui/broker-icon";
+import { Card, CardContent } from "@/helpers/components/ui/card";
+import { BrokerIcon } from "@/helpers/components/ui/broker-icon";
 import {
   Wallet2,
   TrendingUp,
@@ -17,7 +17,7 @@ import {
   History,
 } from "lucide-react";
 import { Button, Chip } from "@nextui-org/react";
-import { HeaderCard } from "@/components/ui/header-card";
+import { HeaderCard } from "@/helpers/components/ui/header-card";
 import { accounts } from "../page"; // Import accounts data
 
 // For Client Component

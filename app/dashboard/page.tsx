@@ -1,9 +1,9 @@
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent } from "@/helpers/components/ui/card";
 import { NewsEvent } from "@/types/news";
 import { ArrowUp, ArrowDown, ChevronRight, Wallet2 } from "lucide-react";
 import { Button } from "@nextui-org/react";
-import { BrokerIcon } from "@/components/ui/broker-icon";
-import { NewsEventItem } from "@/components/news-event-item";
+import { BrokerIcon } from "@/helpers/components/ui/broker-icon";
+import { NewsEventItem } from "@/helpers/components/news-event-item";
 import { ReactNode } from "react";
 
 const previewNewsEvents: NewsEvent[] = [

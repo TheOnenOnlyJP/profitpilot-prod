@@ -13,9 +13,9 @@ import {
   Wallet,
 } from "lucide-react";
 import Image from "next/image";
-import { ThemeToggle } from "@/components/theme-toggle";
+import { ThemeToggle } from "@/helpers/components/theme-toggle";
 import { useState } from "react";
-import { CommandMenu } from "@/components/ui/command-menu";
+import { CommandMenu } from "@/helpers/components/ui/command-menu";
 
 export default function Sidebar() {
   const [isExpanded, setIsExpanded] = useState(true);
@@ -38,7 +38,14 @@ export default function Sidebar() {
       items: [
         { name: "Profile", href: "/dashboard/profile", icon: User },
         { name: "Settings", href: "/dashboard/settings", icon: Settings },
-        { name: "Sign Out", href: "/signin", icon: LogOut },
+        {
+          name: "Sign Out",
+          href: "/",
+          icon: LogOut,
+          handler: () => {
+            localStorage.removeItem("user");
+          },
+        },
       ],
     },
   ];
@@ -134,6 +141,7 @@ export default function Sidebar() {
                   key={item.name}
                   href={item.href}
                   className={navItemClassName}
+                  onClick={item.handler ? item.handler : () => {}}
                 >
                   <Icon className={iconClassName} aria-hidden="true" />
                   {isExpanded && (

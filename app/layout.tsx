@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import "./globals.css";
-import { ThemeProvider } from "@/components/theme-provider";
-import { cn } from "@/lib/utils";
-import Sidebar from "@/components/ui/sidebar";
+import { cn } from "@/helpers/lib/utils";
 import { Providers } from "./providers";
+import "@/helpers/globals.css";
+import { ThemeProvider } from "@/helpers/components/theme-provider";
 
 export const metadata: Metadata = {
   title: "Trading Dashboard",

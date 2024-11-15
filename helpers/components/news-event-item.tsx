@@ -1,5 +1,5 @@
-import { NewsEvent } from '@/types/news';
-import { FlagIcon } from '@/components/ui/flag-icon';
+import { NewsEvent } from "@/types/news";
+import { FlagIcon } from "@/helpers/components/ui/flag-icon";
 
 interface NewsEventItemProps {
   event: NewsEvent;
@@ -12,7 +12,9 @@ export function NewsEventItem({ event }: NewsEventItemProps) {
         <FlagIcon country={event.countryCode} />
         <div className="flex flex-col gap-1">
           <div className="flex items-center gap-2">
-            <span className="text-foreground/90 font-medium">{event.currency}</span>
+            <span className="text-foreground/90 font-medium">
+              {event.currency}
+            </span>
             <span className="text-sm text-muted-foreground">{event.time}</span>
           </div>
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -25,4 +27,4 @@ export function NewsEventItem({ event }: NewsEventItemProps) {
       <span className="h-3 w-3 rounded-full bg-red-500"></span>
     </div>
   );
-} 
+}

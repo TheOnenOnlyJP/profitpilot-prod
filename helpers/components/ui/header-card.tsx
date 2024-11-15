@@ -1,5 +1,5 @@
 import { Bell, Settings } from "lucide-react";
-import { Card } from "@/components/ui/card";
+import { Card } from "@/helpers/components/ui/card";
 
 interface HeaderCardProps {
   title: string;

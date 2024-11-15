@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent } from "@/helpers/components/ui/card";
 import {
   ArrowLeft,
   ArrowRight,
@@ -23,6 +23,13 @@ export default function SignUpPage() {
   const [currentStep, setCurrentStep] = useState(1);
   const totalSteps = 3;
 
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [tradingExperience, setTradingExperience] = useState("");
+  const [preferredMarkets, setPreferredMarkets] = useState<string[]>([]);
+
   const steps: Step[] = [
     {
       title: "Account Details",
@@ -37,6 +44,52 @@ export default function SignUpPage() {
       description: "Your trading information",
     },
   ];
+
+  const handleMarketChange = (market: string) => {
+    setPreferredMarkets((prev) =>
+      prev.includes(market)
+        ? prev.filter((m) => m !== market)
+        : [...prev, market]
+    );
+  };
+
+  const handleSignUp = () => {
+    console.log({
+      email,
+      password,
+      fullName,
+      phoneNumber,
+      tradingExperience,
+      preferredMarkets,
+    });
+
+    fetch("/api/auth/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email,
+        password,
+        fullName,
+        phoneNumber,
+        tradingExperience,
+        preferredMarkets,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.data === "error") {
+          alert("Failed to create user: " + data.message);
+        } else {
+          alert("User created successfully!");
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        alert("An error occurred while creating the user.");
+      });
+  };
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
@@ -116,6 +169,8 @@ export default function SignUpPage() {
                           <input
                             type="email"
                             placeholder="Enter your email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
                             className="w-full pl-10 pr-4 py-2 bg-background border border-border rounded-lg focus:ring-2 focus:ring-primary/20"
                           />
                         </div>
@@ -123,14 +178,15 @@ export default function SignUpPage() {
 
                       <div className="space-y-2">
                         <label className="text-sm font-medium">Password</label>
-                        <div className="relative">
-                          <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                          <input
-                            type="password"
-                            placeholder="Create a password"
-                            className="w-full pl-10 pr-4 py-2 bg-background border border-border rounded-lg focus:ring-2 focus:ring-primary/20"
-                          />
-                        </div>
+                        <div className="relative"></div>
+                        <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                        <input
+                          type="password"
+                          placeholder="Create a password"
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                          className="w-full pl-10 pr-4 py-2 bg-background border border-border rounded-lg focus:ring-2 focus:ring-primary/20"
+                        />
                       </div>
                     </div>
                   </div>
@@ -155,6 +211,8 @@ export default function SignUpPage() {
                           <input
                             type="text"
                             placeholder="Enter your full name"
+                            value={fullName}
+                            onChange={(e) => setFullName(e.target.value)}
                             className="w-full pl-10 pr-4 py-2 bg-background border border-border rounded-lg focus:ring-2 focus:ring-primary/20"
                           />
                         </div>
@@ -167,6 +225,8 @@ export default function SignUpPage() {
                         <input
                           type="tel"
                           placeholder="Enter your phone number"
+                          value={phoneNumber}
+                          onChange={(e) => setPhoneNumber(e.target.value)}
                           className="w-full px-4 py-2 bg-background border border-border rounded-lg focus:ring-2 focus:ring-primary/20"
                         />
                       </div>
@@ -190,7 +250,11 @@ export default function SignUpPage() {
                         <label className="text-sm font-medium">
                           Trading Experience
                         </label>
-                        <select className="w-full px-4 py-2 bg-background border border-border rounded-lg focus:ring-2 focus:ring-primary/20">
+                        <select
+                          value={tradingExperience}
+                          onChange={(e) => setTradingExperience(e.target.value)}
+                          className="w-full px-4 py-2 bg-background border border-border rounded-lg focus:ring-2 focus:ring-primary/20"
+                        >
                           <option value="">Select your experience level</option>
                           <option value="beginner">Beginner (0-1 years)</option>
                           <option value="intermediate">
@@ -213,6 +277,8 @@ export default function SignUpPage() {
                               >
                                 <input
                                   type="checkbox"
+                                  checked={preferredMarkets.includes(market)}
+                                  onChange={() => handleMarketChange(market)}
                                   className="rounded border-border text-primary focus:ring-primary/20"
                                 />
                                 <span className="text-sm">{market}</span>
@@ -242,9 +308,15 @@ export default function SignUpPage() {
                     Back
                   </button>
                   <button
-                    onClick={() =>
-                      setCurrentStep((prev) => Math.min(prev + 1, totalSteps))
-                    }
+                    onClick={() => {
+                      if (currentStep === totalSteps) {
+                        alert("Sign up complete!");
+                        handleSignUp();
+                      }
+                      return setCurrentStep((prev) =>
+                        Math.min(prev + 1, totalSteps)
+                      );
+                    }}
                     className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
                   >
                     {currentStep === totalSteps ? "Complete" : "Continue"}
@@ -261,7 +333,7 @@ export default function SignUpPage() {
         <p className="text-center text-sm text-muted-foreground">
           Already have an account?{" "}
           <Link
-            href="/signin"
+            href="/"
             className="text-primary hover:text-primary/80 transition-colors"
           >
             Sign In

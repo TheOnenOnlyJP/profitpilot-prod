@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
-import { Mail, Lock, Eye, EyeOff, LucideProps } from 'lucide-react';
-import Image from 'next/image';
-import Link from 'next/link';
+import { useEffect, useState } from "react";
+import { Mail, Lock, Eye, EyeOff, LucideProps } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { Card, CardContent } from "@/helpers/components/ui/card";
 
 // Add Google icon component
 function GoogleIcon(props: LucideProps) {
@@ -32,13 +33,43 @@ function GoogleIcon(props: LucideProps) {
 
 export default function SignInPage() {
   const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    if (user) {
+      router.push("/dashboard");
+    }
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Add your sign-in logic here
+    fetch("/api/auth/signin", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.data === "error") {
+          alert(data.message);
+        } else {
+          alert("Login successful");
+
+          console.log(data);
+          localStorage.setItem("user", JSON.stringify(data));
+          router.push("/dashboard");
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        alert("An error occurred. Please try again.");
+      });
   };
 
   return (
@@ -50,8 +81,12 @@ export default function SignInPage() {
             <Image src="/assets/logo.svg" alt="Logo" width={40} height={40} />
             <span className="text-2xl font-semibold">Profit Pilot</span>
           </div>
-          <h1 className="text-2xl font-semibold tracking-tight">Welcome back</h1>
-          <p className="text-muted-foreground">Enter your credentials to access your account</p>
+          <h1 className="text-2xl font-semibold tracking-tight">
+            Welcome back
+          </h1>
+          <p className="text-muted-foreground">
+            Enter your credentials to access your account
+          </p>
         </div>
 
         <Card className="border-border">
@@ -111,7 +146,7 @@ export default function SignInPage() {
                   />
                   <span className="text-sm">Remember me</span>
                 </label>
-                <Link 
+                <Link
                   href="/forgot-password"
                   className="text-sm text-primary hover:text-primary/80 transition-colors"
                 >
@@ -133,7 +168,9 @@ export default function SignInPage() {
                   <div className="w-full border-t border-border"></div>
                 </div>
                 <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-card px-2 text-muted-foreground">Or continue with</span>
+                  <span className="bg-card px-2 text-muted-foreground">
+                    Or continue with
+                  </span>
                 </div>
               </div>
 
@@ -151,9 +188,9 @@ export default function SignInPage() {
 
         {/* Sign Up Link */}
         <p className="text-center text-sm text-muted-foreground">
-          Don't have an account?{' '}
-          <Link 
-            href="/signup" 
+          Don't have an account?{" "}
+          <Link
+            href="/signup"
             className="text-primary hover:text-primary/80 transition-colors"
           >
             Sign up
@@ -162,4 +199,4 @@ export default function SignInPage() {
       </div>
     </div>
   );
-} 
+}

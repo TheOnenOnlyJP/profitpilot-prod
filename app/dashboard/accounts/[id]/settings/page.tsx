@@ -1,20 +1,24 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
-import { BrokerIcon } from '@/components/ui/broker-icon';
-import { 
-  Settings, Bell, Shield, Terminal, 
-  Link, AlertTriangle, Trash2, Save,
-  X, RefreshCcw, Database, Lock
-} from 'lucide-react';
-import { Alert, AlertDescription } from '@/components/ui/alert';
+import { useState } from "react";
+import { Card, CardContent } from "@/helpers/components/ui/card";
+import {
+  Terminal,
+  Link,
+  AlertTriangle,
+  Trash2,
+  Save,
+  X,
+  RefreshCcw,
+  Database,
+  Lock,
+} from "lucide-react";
 
-export default function AccountSettingsPage({ params }: { params: { id: string } }) {
+export default function AccountSettingsPage() {
   const [loading, setLoading] = useState(false);
-  const [platform, setPlatform] = useState('mt5');
-  const [provisioningProfile, setProvisioningProfile] = useState('');
-  
+  const [platform, setPlatform] = useState("mt5");
+  const [provisioningProfile, setProvisioningProfile] = useState("");
+
   return (
     <div className="min-h-screen bg-background">
       <div className="max-w-7xl mx-auto py-8 px-6">
@@ -28,16 +32,22 @@ export default function AccountSettingsPage({ params }: { params: { id: string }
                     <Link className="h-5 w-5 text-primary" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold text-foreground">MetaAPI Connection</h3>
-                    <p className="text-sm text-muted-foreground">Core trading account configuration</p>
+                    <h3 className="text-xl font-semibold text-foreground">
+                      MetaAPI Connection
+                    </h3>
+                    <p className="text-sm text-muted-foreground">
+                      Core trading account configuration
+                    </p>
                   </div>
                 </div>
 
                 <div className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="text-sm font-medium text-foreground">Platform</label>
-                      <select 
+                      <label className="text-sm font-medium text-foreground">
+                        Platform
+                      </label>
+                      <select
                         className="w-full p-2 mt-1 rounded-lg bg-background border border-border"
                         value={platform}
                         onChange={(e) => setPlatform(e.target.value)}
@@ -46,9 +56,11 @@ export default function AccountSettingsPage({ params }: { params: { id: string }
                         <option value="mt5">MetaTrader 5</option>
                       </select>
                     </div>
-                    
+
                     <div>
-                      <label className="text-sm font-medium text-foreground">Account Type</label>
+                      <label className="text-sm font-medium text-foreground">
+                        Account Type
+                      </label>
                       <select className="w-full p-2 mt-1 rounded-lg bg-background border border-border">
                         <option value="live">Live</option>
                         <option value="demo">Demo</option>
@@ -57,7 +69,9 @@ export default function AccountSettingsPage({ params }: { params: { id: string }
                   </div>
 
                   <div>
-                    <label className="text-sm font-medium text-foreground">Broker Server</label>
+                    <label className="text-sm font-medium text-foreground">
+                      Broker Server
+                    </label>
                     <input
                       type="text"
                       placeholder="e.g. ICMarkets-Demo"
@@ -66,7 +80,9 @@ export default function AccountSettingsPage({ params }: { params: { id: string }
                   </div>
 
                   <div>
-                    <label className="text-sm font-medium text-foreground">Account ID</label>
+                    <label className="text-sm font-medium text-foreground">
+                      Account ID
+                    </label>
                     <input
                       type="text"
                       className="w-full p-2 mt-1 rounded-lg bg-background border border-border"
@@ -75,15 +91,19 @@ export default function AccountSettingsPage({ params }: { params: { id: string }
 
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="text-sm font-medium text-foreground">Login/Account Number</label>
+                      <label className="text-sm font-medium text-foreground">
+                        Login/Account Number
+                      </label>
                       <input
                         type="text"
                         className="w-full p-2 mt-1 rounded-lg bg-background border border-border"
                       />
                     </div>
-                    
+
                     <div>
-                      <label className="text-sm font-medium text-foreground">Password</label>
+                      <label className="text-sm font-medium text-foreground">
+                        Password
+                      </label>
                       <input
                         type="password"
                         className="w-full p-2 mt-1 rounded-lg bg-background border border-border"
@@ -102,14 +122,20 @@ export default function AccountSettingsPage({ params }: { params: { id: string }
                     <Terminal className="h-5 w-5 text-primary" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold text-foreground">Advanced Settings</h3>
-                    <p className="text-sm text-muted-foreground">Additional MetaAPI configuration</p>
+                    <h3 className="text-xl font-semibold text-foreground">
+                      Advanced Settings
+                    </h3>
+                    <p className="text-sm text-muted-foreground">
+                      Additional MetaAPI configuration
+                    </p>
                   </div>
                 </div>
 
                 <div className="space-y-4">
                   <div>
-                    <label className="text-sm font-medium text-foreground">Provisioning Profile ID</label>
+                    <label className="text-sm font-medium text-foreground">
+                      Provisioning Profile ID
+                    </label>
                     <input
                       type="text"
                       value={provisioningProfile}
@@ -120,7 +146,9 @@ export default function AccountSettingsPage({ params }: { params: { id: string }
 
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="text-sm font-medium text-foreground">Region</label>
+                      <label className="text-sm font-medium text-foreground">
+                        Region
+                      </label>
                       <select className="w-full p-2 mt-1 rounded-lg bg-background border border-border">
                         <option value="new-york">New York</option>
                         <option value="london">London</option>
@@ -129,7 +157,9 @@ export default function AccountSettingsPage({ params }: { params: { id: string }
                     </div>
 
                     <div>
-                      <label className="text-sm font-medium text-foreground">Connection Mode</label>
+                      <label className="text-sm font-medium text-foreground">
+                        Connection Mode
+                      </label>
                       <select className="w-full p-2 mt-1 rounded-lg bg-background border border-border">
                         <option value="cloud">Cloud</option>
                         <option value="hybrid">Hybrid</option>
@@ -139,18 +169,33 @@ export default function AccountSettingsPage({ params }: { params: { id: string }
 
                   <div className="space-y-2">
                     <label className="flex items-center gap-2">
-                      <input type="checkbox" className="rounded border-border" />
-                      <span className="text-sm text-foreground">Enable CopyFactory integration</span>
-                    </label>
-                    
-                    <label className="flex items-center gap-2">
-                      <input type="checkbox" className="rounded border-border" />
-                      <span className="text-sm text-foreground">Enable risk management API</span>
+                      <input
+                        type="checkbox"
+                        className="rounded border-border"
+                      />
+                      <span className="text-sm text-foreground">
+                        Enable CopyFactory integration
+                      </span>
                     </label>
 
                     <label className="flex items-center gap-2">
-                      <input type="checkbox" className="rounded border-border" />
-                      <span className="text-sm text-foreground">Allow manual trading</span>
+                      <input
+                        type="checkbox"
+                        className="rounded border-border"
+                      />
+                      <span className="text-sm text-foreground">
+                        Enable risk management API
+                      </span>
+                    </label>
+
+                    <label className="flex items-center gap-2">
+                      <input
+                        type="checkbox"
+                        className="rounded border-border"
+                      />
+                      <span className="text-sm text-foreground">
+                        Allow manual trading
+                      </span>
                     </label>
                   </div>
                 </div>
@@ -167,25 +212,33 @@ export default function AccountSettingsPage({ params }: { params: { id: string }
                   <div className="p-2 rounded-lg bg-primary/10">
                     <Database className="h-5 w-5 text-primary" />
                   </div>
-                  <h3 className="text-xl font-semibold text-foreground">Connection Status</h3>
+                  <h3 className="text-xl font-semibold text-foreground">
+                    Connection Status
+                  </h3>
                 </div>
 
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-foreground">MetaAPI Connection</span>
+                    <span className="text-sm text-foreground">
+                      MetaAPI Connection
+                    </span>
                     <span className="text-sm text-emerald-500">Connected</span>
                   </div>
 
                   <div className="flex items-center justify-between">
                     <span className="text-sm text-foreground">Last Sync</span>
-                    <span className="text-sm text-muted-foreground">2 minutes ago</span>
+                    <span className="text-sm text-muted-foreground">
+                      2 minutes ago
+                    </span>
                   </div>
 
-                  <button 
+                  <button
                     className="w-full flex items-center justify-center gap-2 p-2 rounded-lg bg-primary/10 hover:bg-primary/20 transition-colors"
                     onClick={() => setLoading(true)}
                   >
-                    <RefreshCcw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
+                    <RefreshCcw
+                      className={`h-4 w-4 ${loading ? "animate-spin" : ""}`}
+                    />
                     Refresh Connection
                   </button>
                 </div>
@@ -199,18 +252,24 @@ export default function AccountSettingsPage({ params }: { params: { id: string }
                   <div className="p-2 rounded-lg bg-primary/10">
                     <Lock className="h-5 w-5 text-primary" />
                   </div>
-                  <h3 className="text-xl font-semibold text-foreground">Security</h3>
+                  <h3 className="text-xl font-semibold text-foreground">
+                    Security
+                  </h3>
                 </div>
 
                 <div className="space-y-4">
                   <label className="flex items-center gap-2">
                     <input type="checkbox" className="rounded border-border" />
-                    <span className="text-sm text-foreground">Require 2FA for trades</span>
+                    <span className="text-sm text-foreground">
+                      Require 2FA for trades
+                    </span>
                   </label>
 
                   <label className="flex items-center gap-2">
                     <input type="checkbox" className="rounded border-border" />
-                    <span className="text-sm text-foreground">IP whitelisting</span>
+                    <span className="text-sm text-foreground">
+                      IP whitelisting
+                    </span>
                   </label>
                 </div>
               </CardContent>
@@ -223,7 +282,9 @@ export default function AccountSettingsPage({ params }: { params: { id: string }
                   <div className="p-2 rounded-lg bg-red-500/10">
                     <AlertTriangle className="h-5 w-5 text-red-500" />
                   </div>
-                  <h3 className="text-xl font-semibold text-red-500">Danger Zone</h3>
+                  <h3 className="text-xl font-semibold text-red-500">
+                    Danger Zone
+                  </h3>
                 </div>
 
                 <div className="space-y-4">
